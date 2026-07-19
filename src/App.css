@@ -523,6 +523,62 @@ body {
    transition: transform 0.2s ease, box-shadow 0.2s ease;
  }
  
+ .contact-card--actions {
+   justify-content: flex-start;
+ }
+ 
+ .contact-actions {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+   margin-top: 6px;
+ }
+ 
+ .contact-action-btn {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   padding: 10px 14px;
+   border-radius: 999px;
+   font-size: 0.95rem;
+   font-weight: 700;
+   text-decoration: none;
+   transition: transform 0.2s ease, box-shadow 0.2s ease;
+ }
+ 
+ .contact-action-icon {
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.1rem;
+   line-height: 1;
+ }
+ 
+ .contact-action-icon svg {
+   width: 18px;
+   height: 18px;
+ }
+ 
+ .contact-action-label {
+   font-size: 0.95rem;
+   font-weight: 700;
+ }
+ 
+ .contact-action-btn:hover {
+   transform: translateY(-1px);
+   box-shadow: 0 8px 20px rgba(17, 35, 64, 0.12);
+ }
+ 
+ .contact-action-btn--call {
+   background: #004080;
+   color: #ffffff;
+ }
+ 
+ .contact-action-btn--whatsapp {
+   background: #25d366;
+   color: #ffffff;
+ }
+ 
  .contact-card:hover {
    transform: translateY(-2px);
    box-shadow: 0 18px 40px rgba(17, 35, 64, 0.12);
