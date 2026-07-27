@@ -584,6 +584,41 @@ body {
   margin: 0 0 8px;
 }
 
+.passenger-details-form {
+  margin-top: 24px;
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #d5e7fb;
+  border-radius: 20px;
+}
+
+.passenger-details-form h4 {
+  margin: 0 0 18px;
+  color: #00264d;
+}
+
+.passenger-details-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.confirm-button,
+.continue-button {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.confirm-button {
+  background: #ffffff;
+  color: #0f3b6f;
+  border: 1px solid #c5d3e5;
+}
+
+.continue-button {
+  background: #004080;
+  color: white;
+}
+
 .deals-grid,
 .why-grid,
 .support-grid,

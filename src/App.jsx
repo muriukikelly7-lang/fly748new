@@ -355,6 +355,108 @@ const HomePage = ({
               {submitted.tripType === 'Roundtrip' && (
                 <p>Return departs at {submitted.returnTime}.</p>
               )}
+              {!showPassengerForm && (
+                <button
+                  type="button"
+                  className="button button-secondary confirm-button"
+                  onClick={() => {
+                    setShowPassengerForm(true);
+                    setFormError('');
+                  }}
+                >
+                  Confirm
+                </button>
+              )}
+              {showPassengerForm && (
+                <div className="passenger-details-form">
+                  <h4>Passenger details</h4>
+                  {formError && <div className="alert">{formError}</div>}
+                  <div className="field-grid">
+                    <label>
+                      Full name
+                      <input
+                        name="fullName"
+                        value={passengerInfo.fullName}
+                        onChange={event => setPassengerInfo(prev => ({ ...prev, [event.target.name]: event.target.value }))}
+                        placeholder="Enter full name"
+                      />
+                    </label>
+                    <label>
+                      National ID / Passport
+                      <input
+                        name="idNumber"
+                        value={passengerInfo.idNumber}
+                        onChange={event => setPassengerInfo(prev => ({ ...prev, [event.target.name]: event.target.value }))}
+                        placeholder="ID or passport number"
+                      />
+                    </label>
+                  </div>
+                  <div className="field-grid">
+                    <label>
+                      Passenger type
+                      <select
+                        name="passengerType"
+                        value={passengerInfo.passengerType}
+                        onChange={event => setPassengerInfo(prev => ({ ...prev, [event.target.name]: event.target.value }))}
+                      >
+                        <option>Adult</option>
+                        <option>Child</option>
+                        <option>Infant</option>
+                      </select>
+                    </label>
+                    <label>
+                      Phone number
+                      <input
+                        type="tel"
+                        name="phone"
+                        value={passengerInfo.phone}
+                        onChange={event => setPassengerInfo(prev => ({ ...prev, [event.target.name]: event.target.value }))}
+                        placeholder="e.g. +254712345678"
+                      />
+                    </label>
+                  </div>
+                  <div className="field-grid">
+                    <label>
+                      Email address
+                      <input
+                        type="email"
+                        name="email"
+                        value={passengerInfo.email}
+                        onChange={event => setPassengerInfo(prev => ({ ...prev, [event.target.name]: event.target.value }))}
+                        placeholder="you@example.com"
+                      />
+                    </label>
+                    <label>
+                      Special request
+                      <textarea
+                        name="specialRequest"
+                        value={passengerInfo.specialRequest}
+                        onChange={event => setPassengerInfo(prev => ({ ...prev, [event.target.name]: event.target.value }))}
+                        placeholder="Dietary needs, wheelchair support, seat preference"
+                      />
+                    </label>
+                  </div>
+                  <button
+                    type="button"
+                    className="button button-primary continue-button"
+                    onClick={() => {
+                      const required = ['fullName', 'idNumber', 'phone', 'email'];
+                      const missing = required.filter(key => !passengerInfo[key].trim());
+                      if (missing.length) {
+                        setFormError('Please complete all required passenger fields before continuing.');
+                        return;
+                      }
+
+                      const whatsappNumber = '254738844990';
+                      const message = `Hello Fly 748,\n\nI would like to confirm my booking:\nRoute: ${submitted.origin} → ${submitted.destination}\nDepart: ${submitted.departDate}${submitted.tripType === 'Roundtrip' ? `\nReturn: ${submitted.returnDate}` : ''}\nPassengers: ${submitted.passengers}\nFlight: ${submitted.flightNo} (${submitted.reg})\nTotal: Ksh. ${submitted.totalPrice.toLocaleString()}\n\nPassenger details:\nName: ${passengerInfo.fullName}\nID/Passport: ${passengerInfo.idNumber}\nPassenger type: ${passengerInfo.passengerType}\nPhone: ${passengerInfo.phone}\nEmail: ${passengerInfo.email}\nSpecial requests: ${passengerInfo.specialRequest || 'None'}\n\nPlease help me complete this booking.`;
+                      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                      window.open(whatsappUrl, '_blank');
+                    }}
+                  >
+                    Continue to WhatsApp
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </form>
@@ -779,6 +881,16 @@ function App() {
     coupon: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [showPassengerForm, setShowPassengerForm] = useState(false);
+  const [passengerInfo, setPassengerInfo] = useState({
+    fullName: '',
+    idNumber: '',
+    passengerType: 'Adult',
+    phone: '',
+    email: '',
+    specialRequest: '',
+  });
+  const [formError, setFormError] = useState('');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -923,6 +1035,17 @@ function App() {
     };
 
     setSubmitted(result);
+    setShowPassengerForm(false);
+    setPassengerInfo({
+      fullName: '',
+      idNumber: '',
+      passengerType: 'Adult',
+      phone: '',
+      email: '',
+      specialRequest: '',
+    });
+    setFormError('');
+
     requestAnimationFrame(() => {
       resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
