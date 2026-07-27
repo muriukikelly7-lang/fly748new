@@ -1,6 +1,7 @@
 ﻿import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, Link, useParams } from 'react-router-dom';
+import Gallery from './components/Gallery';
 
 const heroSlides = [
   '/hero-slide-1.png',
@@ -68,7 +69,7 @@ const PageRouter = () => {
   const page = pageMap[pageId];
 
   if (!page) {
-    return <RouteNotFoundPage />;
+    return <StaticPage title="Page not found" paragraphs={['The page you are looking for does not exist. Please use the navigation menu to continue.']} />;
   }
 
   return <StaticPage title={page.title} paragraphs={page.paragraphs} />;
@@ -118,6 +119,7 @@ const HomePage = ({
   handleSubmit,
   error,
   submitted,
+  resultRef,
   topRoutes,
   aboutLinks,
   travelInfo,
@@ -126,7 +128,25 @@ const HomePage = ({
   fleetItems,
   destinations,
   footerLinks,
-}) => (
+}) => {
+  const scrollToSection = (event, sectionId) => {
+    event.preventDefault();
+    const target = document.getElementById(sectionId);
+    const hashPath = `/${sectionId}`;
+
+    window.location.hash = hashPath;
+
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+
+    window.setTimeout(() => {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 120);
+  };
+
+  return (
   <div id="MainContent">
     <section className="hero-booking-v47">
       <div className="hb-stage">
@@ -140,8 +160,8 @@ const HomePage = ({
           <h1 className="hb-h1">Connecting Kenya</h1>
           <p className="hb-p">Scheduled flights to Mombasa, Diani, and beyond.</p>
           <div className="hb-actions">
-            <a className="button button-primary" href="#booking">Book Flight</a>
-            <a className="button button-secondary" href="#schedule">View Schedule</a>
+            <a className="button button-primary" href="#/booking" onClick={(event) => scrollToSection(event, 'booking')}>Book Flight</a>
+            <a className="button button-secondary" href="#/schedule" onClick={(event) => scrollToSection(event, 'schedule')}>View Schedule</a>
           </div>
           <div className="hb-pagination" aria-label="Slides">
             {heroSlides.map((_, index) => (
@@ -205,11 +225,29 @@ const HomePage = ({
               <input name="coupon" value={booking.coupon} onChange={handleChange} placeholder="Optional" />
             </label>
           </div>
-          <button className="button button-primary submit-button" type="submit">Find flights</button>
+          <button className="button button-primary submit-button" type="button" onClick={handleSubmit}>Find flights</button>
           {submitted && (
-            <div className="confirmation">
-              <h3>Flight search submitted</h3>
-              <p>We are checking availability for your flight request.</p>
+            <div className="confirmation" ref={resultRef}>
+              <h3>Suggested flights available</h3>
+              <p>{submitted.origin} → {submitted.destination} on {submitted.departDate}</p>
+              <div className="flight-result-card">
+                <div>
+                  <strong>{submitted.flightNo}</strong>
+                  <div>Reg {submitted.reg}</div>
+                  <div>{submitted.departTime} departure</div>
+                </div>
+                <div>
+                  <strong>Ksh. {submitted.price.toLocaleString()}</strong>
+                  <div>{submitted.passengers}</div>
+                </div>
+                <div>
+                  <strong>{submitted.tripType}</strong>
+                  <div>{submitted.roundTripLabel}</div>
+                </div>
+              </div>
+              {submitted.tripType === 'Roundtrip' && (
+                <p>Return departs at {submitted.returnTime}.</p>
+              )}
             </div>
           )}
         </form>
@@ -227,7 +265,7 @@ const HomePage = ({
           <div className="deal-copy">
             <span>From Ksh. 7,700</span>
             <h3>Mombasa Coastal • Breezy</h3>
-            <a href="#booking">Book Flight →</a>
+            <a href="#/booking" onClick={(event) => scrollToSection(event, 'booking')}>Book Flight →</a>
           </div>
         </article>
         <article className="deal-card">
@@ -235,7 +273,7 @@ const HomePage = ({
           <div className="deal-copy">
             <span>From Ksh. 7,700</span>
             <h3>Ukunda Relaxing</h3>
-            <a href="#booking">Book Flight →</a>
+            <a href="#/booking" onClick={(event) => scrollToSection(event, 'booking')}>Book Flight →</a>
           </div>
         </article>
         <article className="deal-card">
@@ -243,7 +281,7 @@ const HomePage = ({
           <div className="deal-copy">
             <span>From Ksh. 7,700</span>
             <h3>Malindi Beach • Coastal</h3>
-            <a href="#booking">Book Flight →</a>
+            <a href="#/booking" onClick={(event) => scrollToSection(event, 'booking')}>Book Flight →</a>
           </div>
         </article>
         <article className="deal-card">
@@ -251,7 +289,7 @@ const HomePage = ({
           <div className="deal-copy">
             <span>From Ksh. 9,500</span>
             <h3>Maasai Mara Safari</h3>
-            <a href="#booking">Book Flight →</a>
+            <a href="#/booking" onClick={(event) => scrollToSection(event, 'booking')}>Book Flight →</a>
           </div>
         </article>
       </div>
@@ -391,15 +429,16 @@ const HomePage = ({
           <p>For general enquiries and office support.</p>
           <span>020 201 9056</span>
         </a>
-        <a className="contact-card" href="mailto:customerdesk@fly748.com">
+        <a className="contact-card" href="mailto:customerdesk@fly748.co.ke">
           <h3>Send us an email</h3>
           <p>Reach out for ticket changes, quotes, or customer support.</p>
-          <span>customerdesk@fly748.com</span>
+          <span>customerdesk@fly748.co.ke</span>
         </a>
       </div>
     </section>
   </div>
-);
+  );
+};
 
 const StaticPage = ({ title, paragraphs }) => (
   <PageShell title={title}>
@@ -450,7 +489,7 @@ const ContactPage = () => (
       <p>Fly 748 - JKIA, Terminal 2</p>
       <p>Call us: +254738844990</p>
       <p>Office line: 020 201 9056</p>
-      <p>Email: customerdesk@fly748.com</p>
+      <p>Email: customerdesk@fly748.co.ke</p>
     </div>
   </PageShell>
 );
@@ -512,7 +551,7 @@ const PressRoomPage = () => (
   <PageShell title="Press Room">
     <div className="page-copy">
       <p>Latest announcements and media resources from Fly 748.</p>
-      <p>For press enquiries, contact customerdesk@fly748.com.</p>
+      <p>For press enquiries, contact customerdesk@fly748.co.ke.</p>
     </div>
   </PageShell>
 );
@@ -559,7 +598,15 @@ const RouteNotFoundPage = () => (
 function App() {
   const [activeHero, setActiveHero] = useState(0);
   const [tripType, setTripType] = useState('Roundtrip');
+  const resultRef = useRef(null);
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [signinEmail, setSigninEmail] = useState('');
+  const [signinOtp, setSigninOtp] = useState('');
+  const [signinStage, setSigninStage] = useState('email');
+  const [signinMessage, setSigninMessage] = useState('');
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [isSigninOpen, setIsSigninOpen] = useState(false);
+  const [sentOtp, setSentOtp] = useState('');
   const [booking, setBooking] = useState({
     from: 'Nairobi',
     to: 'Mombasa',
@@ -578,48 +625,164 @@ function App() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const savedSession = window.sessionStorage.getItem('fly748-signin');
+    if (savedSession === 'active') {
+      setIsSignedIn(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const scrollToHashSection = () => {
+      const hash = window.location.hash.replace('#', '').trim();
+      const sectionId = hash.replace(/^\//, '');
+      if (!sectionId || !['booking', 'schedule'].includes(sectionId)) return;
+
+      requestAnimationFrame(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    };
+
+    scrollToHashSection();
+    window.addEventListener('hashchange', scrollToHashSection);
+
+    return () => window.removeEventListener('hashchange', scrollToHashSection);
+  }, []);
+
   const handleChange = event => {
     const { name, value } = event.target;
     setBooking(prev => ({ ...prev, [name]: value }));
     setError('');
   };
 
-  const handleSubmit = async event => {
+  const handleSignInEmail = async event => {
     event.preventDefault();
+    if (!signinEmail.trim()) {
+      setSigninMessage('Please enter your email address.');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/auth/request-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: signinEmail.trim() }),
+      });
+
+      const data = await response.json();
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || 'Unable to send OTP.');
+      }
+
+      setSentOtp(data.otp);
+      setSigninMessage(`OTP sent to ${signinEmail}. Check your inbox and enter ${data.otp}.`);
+      setSigninStage('otp');
+    } catch (error) {
+      setSigninMessage(error.message || 'Unable to send OTP right now.');
+    }
+  };
+
+  const handleSignInOtp = event => {
+    event.preventDefault();
+    if (signinOtp.trim() !== sentOtp) {
+      setSigninMessage(`Invalid code. Please use the code shown on screen or sent by the server.`);
+      return;
+    }
+
+    setSigninMessage('Signed in successfully. Your session is active.');
+    setIsSignedIn(true);
+    window.sessionStorage.setItem('fly748-signin', 'active');
+    setIsSigninOpen(false);
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+
     const required = [booking.from, booking.to, booking.depart, booking.passengers];
     if (tripType === 'Roundtrip') required.push(booking.ret);
     if (required.some(value => !value || String(value).trim() === '')) {
       setError('Please complete all required fields before searching flights.');
+      setSubmitted(false);
       return;
     }
 
     setError('');
-    setSubmitted(false);
 
-    try {
-      const response = await fetch('http://localhost:4000/api/bookings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          tripType,
-          ...booking,
-        }),
-      });
+    const origin = booking.from?.trim() || 'Nairobi';
+    const destination = booking.to?.trim() || 'Mombasa';
+    const departDate = booking.depart || 'Today';
+    const returnDate = booking.ret || '';
+    const passengers = booking.passengers || '1 Passenger';
 
-      const data = await response.json();
-      if (!response.ok) {
-        setError(data.error || 'Failed to submit booking request.');
-        return;
-      }
+    const routeMap = {
+      Nairobi: {
+        Mombasa: { flightNo: 'F748-101', reg: '5Y-F748', time: '08:30', returnTime: '10:50', price: 7700 },
+        Ukunda: { flightNo: 'F748-205', reg: '5Y-F749', time: '11:15', returnTime: '12:50', price: 7700 },
+        Malindi: { flightNo: 'F748-307', reg: '5Y-F750', time: '14:00', returnTime: '15:20', price: 9500 },
+      },
+      Mombasa: {
+        Nairobi: { flightNo: 'F748-102', reg: '5Y-F751', time: '10:50', returnTime: '08:30', price: 7700 },
+      },
+      Ukunda: {
+        Nairobi: { flightNo: 'F748-206', reg: '5Y-F752', time: '12:50', returnTime: '11:15', price: 7700 },
+      },
+      Malindi: {
+        Nairobi: { flightNo: 'F748-308', reg: '5Y-F753', time: '15:20', returnTime: '14:00', price: 9500 },
+      },
+    };
 
-      setSubmitted(true);
-    } catch (err) {
-      setError('Unable to connect to the booking service.');
-      console.error(err);
-    }
+    const route = routeMap[origin]?.[destination];
+    const fallbackRoute = routeMap.Nairobi?.[destination] || routeMap[origin]?.Nairobi;
+    const chosenRoute = route || fallbackRoute;
+
+    const roundTripLabel = tripType === 'Roundtrip'
+      ? `Return ${returnDate || 'selected return date'}`
+      : 'One-way journey';
+
+    const result = {
+      origin,
+      destination,
+      departDate,
+      returnDate,
+      passengers,
+      tripType,
+      flightNo: chosenRoute?.flightNo || 'F748-101',
+      reg: chosenRoute?.reg || '5Y-F748',
+      departTime: chosenRoute?.time || '08:30',
+      returnTime: chosenRoute?.returnTime || '10:50',
+      price: chosenRoute?.price || 7700,
+      roundTripLabel,
+    };
+
+    setSubmitted(result);
+    requestAnimationFrame(() => {
+      resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
   };
+
+  const homePage = (
+    <HomePage
+      heroSlides={heroSlides}
+      activeHero={activeHero}
+      setActiveHero={setActiveHero}
+      tripType={tripType}
+      setTripType={setTripType}
+      booking={booking}
+      handleChange={handleChange}
+      handleSubmit={handleSubmit}
+      error={error}
+      submitted={submitted}
+      resultRef={resultRef}
+      topRoutes={topRoutes}
+      aboutLinks={aboutLinks}
+      travelInfo={travelInfo}
+      whyCards={whyCards}
+      supportLinks={supportLinks}
+      fleetItems={fleetItems}
+      destinations={destinations}
+      footerLinks={footerLinks}
+    />
+  );
 
   return (
     <HashRouter>
@@ -630,7 +793,7 @@ function App() {
         <div className="f748-top-wrapper">
           <div className="f748-container f748-top-container">
             <div className="f748-top-left">
-              <span className="f748-top-msg">BOOK ON FLY748.COM</span>
+              <span className="f748-top-msg">BOOK ON FLY748.CO.KE</span>
             </div>
           </div>
         </div>
@@ -696,40 +859,68 @@ function App() {
                 <li className="f748-nav-item">
                   <Link className="f748-nav-link" to="/pages/press-room">Press Room</Link>
                 </li>
+                <li className="f748-nav-item">
+                  <Link className="f748-nav-link" to="/gallery">Gallery</Link>
+                </li>
               </ul>
             </nav>
-            <a className="f748-sign-in" href="/customer_authentication/login?return_to=%2Fpages%2Fmy-dashboard">Sign In</a>
+            <button
+              type="button"
+              className="f748-sign-in"
+              onClick={() => {
+                setIsSigninOpen(true);
+                setSigninStage('email');
+                setSigninMessage('');
+                setSigninOtp('');
+                setSentOtp('');
+                setOpenDropdown(null);
+                if (isSignedIn) {
+                  setIsSigninOpen(false);
+                }
+              }}
+            >
+              {isSignedIn ? 'Signed In' : 'Sign In'}
+            </button>
           </div>
         </div>
       </header>
 
       <main id="MainContent">
+        {isSigninOpen && (
+          <section className="signin-panel" aria-label="Sign in panel">
+            <div className="signin-card">
+              <div className="signin-card-header">
+                <h2>{isSignedIn ? 'Welcome back' : 'Sign in to Fly 748'}</h2>
+                <button type="button" className="signin-close" onClick={() => { setIsSigninOpen(false); setSigninStage('email'); setSigninOtp(''); setSigninMessage(''); setSentOtp(''); }}>×</button>
+              </div>
+              <p>{isSignedIn ? 'You are signed in and can continue with your booking.' : 'Enter your email to receive a one-time passcode.'}</p>
+              {signinMessage && <div className="signin-message">{signinMessage}</div>}
+              {signinStage === 'email' ? (
+                <form onSubmit={handleSignInEmail} className="signin-form">
+                  <label>
+                    Email address
+                    <input type="email" value={signinEmail} onChange={event => setSigninEmail(event.target.value)} placeholder="you@example.com" />
+                  </label>
+                  <button type="submit" className="button button-primary">Send OTP</button>
+                </form>
+              ) : (
+                <form onSubmit={handleSignInOtp} className="signin-form">
+                  <label>
+                    One-time passcode
+                    <input type="text" value={signinOtp} onChange={event => setSigninOtp(event.target.value)} placeholder="123456" />
+                  </label>
+                  <button type="submit" className="button button-primary">Verify OTP</button>
+                  <button type="button" className="button button-secondary" onClick={() => { setSigninStage('email'); setSigninOtp(''); setSigninMessage(''); setSentOtp(''); }}>Back</button>
+                </form>
+              )}
+            </div>
+          </section>
+        )}
         <Routes>
-          <Route
-            path="/"
-            element={
-              <HomePage
-                heroSlides={heroSlides}
-                activeHero={activeHero}
-                setActiveHero={setActiveHero}
-                tripType={tripType}
-                setTripType={setTripType}
-                booking={booking}
-                handleChange={handleChange}
-                handleSubmit={handleSubmit}
-                error={error}
-                submitted={submitted}
-                topRoutes={topRoutes}
-                aboutLinks={aboutLinks}
-                travelInfo={travelInfo}
-                whyCards={whyCards}
-                supportLinks={supportLinks}
-                fleetItems={fleetItems}
-                destinations={destinations}
-                footerLinks={footerLinks}
-              />
-            }
-          />
+          <Route path="/" element={homePage} />
+          <Route path="/booking" element={homePage} />
+          <Route path="/schedule" element={homePage} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/pages/news" element={<NewsPage />} />
           <Route path="/pages/about-us" element={<AboutUsPage />} />
           <Route path="/pages/csr" element={<CSRPage />} />
@@ -780,7 +971,7 @@ function App() {
             <p>020 201 9056</p>
             <p>Call us from: 5:00AM - 10:00PM</p>
             <p>Email us anytime:</p>
-            <p className="footer-contact-email">customerdesk@fly748.com</p>
+            <p className="footer-contact-email">customerdesk@fly748.co.ke</p>
           </div>
         </div>
         <p className="footer-copy">© 2026 Fly 748. All rights reserved.</p>
