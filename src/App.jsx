@@ -215,6 +215,12 @@ const HomePage = ({
   fleetItems,
   destinations,
   footerLinks,
+  showPassengerForm,
+  setShowPassengerForm,
+  passengerInfo,
+  setPassengerInfo,
+  formError,
+  setFormError,
 }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [activeCategory, setActiveCategory] = useState('All');
@@ -1072,6 +1078,12 @@ function App() {
       fleetItems={fleetItems}
       destinations={destinations}
       footerLinks={footerLinks}
+      showPassengerForm={showPassengerForm}
+      setShowPassengerForm={setShowPassengerForm}
+      passengerInfo={passengerInfo}
+      setPassengerInfo={setPassengerInfo}
+      formError={formError}
+      setFormError={setFormError}
     />
   );
 
