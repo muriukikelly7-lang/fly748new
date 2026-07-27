@@ -7,87 +7,87 @@ const Gallery = () => {
   const galleryImages = [
     {
       id: 1,
-      src: '/gallery/team-ground-1.jpg',
-      alt: 'FLY748 Crew Team - Ground Operations',
+      src: '/gallery/crew-pre-flight-briefing.jpg',
+      alt: 'Crew Pre-Flight Briefing',
       category: 'Team',
-      title: 'Professional Crew Team'
+      title: 'Crew Pre-Flight Briefing'
     },
     {
       id: 2,
-      src: '/gallery/team-aircraft-1.jpg',
-      alt: 'FLY748 Flight Crew at Aircraft',
+      src: '/gallery/pilots-at-aircraft.jpg',
+      alt: 'Pilots at Aircraft',
       category: 'Team',
-      title: 'Flight Operations Team'
+      title: 'Pilots at Aircraft'
     },
     {
       id: 3,
-      src: '/gallery/team-cabin-crew.jpg',
-      alt: 'Cabin Crew Professional Photo',
+      src: '/gallery/flight-attendants-team.jpg',
+      alt: 'Flight Attendants Team',
       category: 'Team',
-      title: 'Cabin Crew Excellence'
+      title: 'Flight Attendants Team'
     },
     {
       id: 4,
-      src: '/gallery/aircraft-exterior-1.jpg',
-      alt: 'FLY748 Aircraft Exterior',
+      src: '/gallery/fly748-aircraft-at-gate.jpg',
+      alt: 'FLY748 Aircraft at Gate',
       category: 'Aircraft',
-      title: 'Our Modern Fleet'
+      title: 'FLY748 Aircraft at Gate'
     },
     {
       id: 5,
-      src: '/gallery/aircraft-exterior-2.jpg',
-      alt: 'FLY748 Turboprop Aircraft',
+      src: '/gallery/atr-turboprop-aircraft.jpg',
+      alt: 'ATR Turboprop Aircraft',
       category: 'Aircraft',
-      title: 'Advanced Turboprop Fleet'
+      title: 'ATR Turboprop Aircraft'
     },
     {
       id: 6,
-      src: '/gallery/aircraft-ground-team.jpg',
-      alt: 'Ground Services Team',
+      src: '/gallery/ground-operations-team.jpg',
+      alt: 'Ground Operations Team',
       category: 'Operations',
       title: 'Ground Operations Team'
     },
     {
       id: 7,
-      src: '/gallery/cabin-interior-1.jpg',
-      alt: 'Aircraft Cabin Interior View',
+      src: '/gallery/premium-cabin-seating.jpg',
+      alt: 'Premium Cabin Seating',
       category: 'Comfort',
-      title: 'Comfortable Cabin Design'
+      title: 'Premium Cabin Seating'
     },
     {
       id: 8,
-      src: '/gallery/cabin-interior-2.jpg',
-      alt: 'Spacious Cabin Seating',
+      src: '/gallery/cabin-aisle-view.jpg',
+      alt: 'Cabin Aisle View',
       category: 'Comfort',
-      title: 'Premium Seating'
+      title: 'Cabin Aisle View'
     },
     {
       id: 9,
-      src: '/gallery/cabin-interior-3.jpg',
-      alt: 'Modern Cabin Configuration',
+      src: '/gallery/overhead-bin-luggage.jpg',
+      alt: 'Overhead Bin Luggage',
       category: 'Comfort',
-      title: 'Modern Aircraft Interior'
+      title: 'Overhead Bin Luggage'
     },
     {
       id: 10,
-      src: '/gallery/aircraft-maintenance.jpg',
-      alt: 'Aircraft Maintenance Operations',
+      src: '/gallery/aircraft-maintenance-team.jpg',
+      alt: 'Aircraft Maintenance Team',
       category: 'Maintenance',
-      title: 'Safety & Maintenance'
+      title: 'Aircraft Maintenance Team'
     },
     {
       id: 11,
-      src: '/gallery/services-vehicle.jpg',
-      alt: 'Ground Support Services',
+      src: '/gallery/ground-support-vehicle.jpg',
+      alt: 'Ground Support Vehicle',
       category: 'Operations',
-      title: 'Ground Support Excellence'
+      title: 'Ground Support Vehicle'
     },
     {
       id: 12,
-      src: '/gallery/corporate-event.jpg',
-      alt: 'FLY748 Corporate Partnership Event',
+      src: '/gallery/fly748-partnership-event.jpg',
+      alt: 'FLY748 Partnership Event',
       category: 'Events',
-      title: 'Industry Leadership'
+      title: 'FLY748 Partnership Event'
     },
   ];
 

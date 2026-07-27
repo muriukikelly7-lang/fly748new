@@ -7,6 +7,7 @@ All gallery images should be placed in the `src/assets/gallery/` directory.
 ### Image Naming Convention
 
 Use descriptive, lowercase names with hyphens:
+
 - `team-ground-1.jpg` - Team photos at ground level
 - `team-aircraft-1.jpg` - Team photos at aircraft
 - `team-cabin-crew.jpg` - Cabin crew professional photo
@@ -23,6 +24,7 @@ Use descriptive, lowercase names with hyphens:
 ## Image Specifications
 
 **Recommended Format:**
+
 - Format: JPG (for photographs) or PNG (for graphics)
 - Minimum Resolution: 1200 x 1200 pixels (for best quality in gallery)
 - Aspect Ratio: 1:1 (Square) - for consistent grid layout
@@ -32,6 +34,7 @@ Use descriptive, lowercase names with hyphens:
 ## Image Optimization
 
 Before adding images, optimize them for web:
+
 1. Resize to 1200x1200px (square format)
 2. Compress using tools like:
    - TinyPNG.com
@@ -42,6 +45,7 @@ Before adding images, optimize them for web:
 ## Categories
 
 Images are organized by categories in the Gallery component:
+
 - **Team** - Crew and staff team photos
 - **Aircraft** - Aircraft exteriors and fleet shots
 - **Comfort** - Interior cabin views
@@ -58,6 +62,7 @@ Images are organized by categories in the Gallery component:
 4. Add title, category, and description in the gallery data
 
 Example entry in Gallery.jsx:
+
 ```javascript
 {
   id: 13,
@@ -71,6 +76,7 @@ Example entry in Gallery.jsx:
 ## File Paths
 
 When referencing images in the component, use:
+
 - Public path: `/gallery/image-name.jpg`
 - Local path: `src/assets/gallery/image-name.jpg`
 
@@ -79,6 +85,7 @@ The Gallery component uses public paths for image URLs.
 ## Quality Standards
 
 ✅ DO:
+
 - Use high-resolution professional photos
 - Ensure consistent lighting and exposure
 - Include diverse perspectives (team, aircraft, operations)
@@ -86,6 +93,7 @@ The Gallery component uses public paths for image URLs.
 - Crop to square format (1:1 aspect ratio)
 
 ❌ DON'T:
+
 - Use low-resolution images
 - Include faces without consent/permission
 - Use overly saturated or filtered images
@@ -102,6 +110,7 @@ The Gallery component uses public paths for image URLs.
 ## Current Gallery Features
 
 ✨ Professional Features:
+
 - Responsive grid layout (mobile, tablet, desktop)
 - Hover effects and smooth transitions
 - Category filtering

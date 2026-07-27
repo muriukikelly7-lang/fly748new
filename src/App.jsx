@@ -96,6 +96,93 @@ const destinations = [
   { title: 'Ukunda', path: '/pages/ukunda' },
 ];
 
+const galleryImages = [
+  {
+    id: 1,
+    src: '/gallery/crew-pre-flight-briefing.jpg',
+    alt: 'Crew Pre-Flight Briefing',
+    category: 'Team',
+    title: 'Crew Pre-Flight Briefing'
+  },
+  {
+    id: 2,
+    src: '/gallery/pilots-at-aircraft.jpg',
+    alt: 'Pilots at Aircraft',
+    category: 'Team',
+    title: 'Pilots at Aircraft'
+  },
+  {
+    id: 3,
+    src: '/gallery/flight-attendants-team.jpg',
+    alt: 'Flight Attendants Team',
+    category: 'Team',
+    title: 'Flight Attendants Team'
+  },
+  {
+    id: 4,
+    src: '/gallery/fly748-aircraft-at-gate.jpg',
+    alt: 'FLY748 Aircraft at Gate',
+    category: 'Aircraft',
+    title: 'FLY748 Aircraft at Gate'
+  },
+  {
+    id: 5,
+    src: '/gallery/atr-turboprop-aircraft.jpg',
+    alt: 'ATR Turboprop Aircraft',
+    category: 'Aircraft',
+    title: 'ATR Turboprop Aircraft'
+  },
+  {
+    id: 6,
+    src: '/gallery/ground-operations-team.jpg',
+    alt: 'Ground Operations Team',
+    category: 'Operations',
+    title: 'Ground Operations Team'
+  },
+  {
+    id: 7,
+    src: '/gallery/premium-cabin-seating.jpg',
+    alt: 'Premium Cabin Seating',
+    category: 'Comfort',
+    title: 'Premium Cabin Seating'
+  },
+  {
+    id: 8,
+    src: '/gallery/cabin-aisle-view.jpg',
+    alt: 'Cabin Aisle View',
+    category: 'Comfort',
+    title: 'Cabin Aisle View'
+  },
+  {
+    id: 9,
+    src: '/gallery/overhead-bin-luggage.jpg',
+    alt: 'Overhead Bin Luggage',
+    category: 'Comfort',
+    title: 'Overhead Bin Luggage'
+  },
+  {
+    id: 10,
+    src: '/gallery/aircraft-maintenance-team.jpg',
+    alt: 'Aircraft Maintenance Team',
+    category: 'Maintenance',
+    title: 'Aircraft Maintenance Team'
+  },
+  {
+    id: 11,
+    src: '/gallery/ground-support-vehicle.jpg',
+    alt: 'Ground Support Vehicle',
+    category: 'Operations',
+    title: 'Ground Support Vehicle'
+  },
+  {
+    id: 12,
+    src: '/gallery/fly748-partnership-event.jpg',
+    alt: 'FLY748 Partnership Event',
+    category: 'Events',
+    title: 'FLY748 Partnership Event'
+  },
+];
+
 const PageShell = ({ title, caption, children }) => (
   <section className="section contact-section">
     <div className="section-header">
@@ -129,6 +216,14 @@ const HomePage = ({
   destinations,
   footerLinks,
 }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [activeCategory, setActiveCategory] = useState('All');
+  const categories = ['All', 'Team', 'Aircraft', 'Comfort', 'Operations', 'Maintenance', 'Events'];
+
+  const filteredImages = activeCategory === 'All' 
+    ? galleryImages 
+    : galleryImages.filter(img => img.category === activeCategory);
+
   const scrollToSection = (event, sectionId) => {
     event.preventDefault();
     const target = document.getElementById(sectionId);
@@ -236,9 +331,21 @@ const HomePage = ({
                   <div>Reg {submitted.reg}</div>
                   <div>{submitted.departTime} departure</div>
                 </div>
-                <div>
-                  <strong>Ksh. {submitted.price.toLocaleString()}</strong>
-                  <div>{submitted.passengers}</div>
+                <div className="price-section">
+                  <div className="price-per-passenger">
+                    <small>Price per passenger</small>
+                    <strong>Ksh. {submitted.pricePerPassenger.toLocaleString()}</strong>
+                  </div>
+                  <div className="price-divider">×</div>
+                  <div className="passenger-count">
+                    <small>{submitted.passengerCount} passenger{submitted.passengerCount > 1 ? 's' : ''}</small>
+                    <strong>{submitted.passengerCount}</strong>
+                  </div>
+                  <div className="price-equals">=</div>
+                  <div className="total-price">
+                    <small>Total</small>
+                    <strong>Ksh. {submitted.totalPrice.toLocaleString()}</strong>
+                  </div>
                 </div>
                 <div>
                   <strong>{submitted.tripType}</strong>
@@ -338,6 +445,62 @@ const HomePage = ({
           </div>
         ))}
       </div>
+    </section>
+
+    <section id="gallery" className="section gallery-section">
+      <div className="section-header">
+        <p>FLY748 Gallery</p>
+        <h2>Discover our world-class operations, modern fleet, and dedicated team</h2>
+      </div>
+      <div className="gallery-filters">
+        {categories.map(cat => (
+          <button
+            key={cat}
+            type="button"
+            className={`filter-btn ${activeCategory === cat ? 'filter-btn-active' : ''}`}
+            onClick={() => setActiveCategory(cat)}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+      <div className="gallery-grid">
+        {filteredImages.map(img => (
+          <div 
+            key={img.id} 
+            className="gallery-item"
+            onClick={() => setSelectedImage(img)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && setSelectedImage(img)}
+          >
+            <img src={img.src} alt={img.alt} loading="lazy" />
+            <div className="gallery-overlay">
+              <h3>{img.title}</h3>
+              <p>{img.category}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      {selectedImage && (
+        <div className="gallery-modal" onClick={() => setSelectedImage(null)}>
+          <div className="gallery-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button 
+              type="button"
+              className="gallery-modal-close" 
+              onClick={() => setSelectedImage(null)}
+              aria-label="Close gallery"
+            >
+              ×
+            </button>
+            <img src={selectedImage.src} alt={selectedImage.alt} />
+            <div className="gallery-modal-info">
+              <h3>{selectedImage.title}</h3>
+              <p>{selectedImage.category}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
 
     <section className="section social-section">
@@ -713,6 +876,9 @@ function App() {
     const departDate = booking.depart || 'Today';
     const returnDate = booking.ret || '';
     const passengers = booking.passengers || '1 Passenger';
+    
+    // Extract passenger count from string like "2 Passengers"
+    const passengerCount = parseInt(passengers.split(' ')[0]) || 1;
 
     const routeMap = {
       Nairobi: {
@@ -750,7 +916,9 @@ function App() {
       reg: chosenRoute?.reg || '5Y-F748',
       departTime: chosenRoute?.time || '08:30',
       returnTime: chosenRoute?.returnTime || '10:50',
-      price: chosenRoute?.price || 7700,
+      pricePerPassenger: chosenRoute?.price || 7700,
+      totalPrice: (chosenRoute?.price || 7700) * passengerCount,
+      passengerCount,
       roundTripLabel,
     };
 
@@ -790,97 +958,29 @@ function App() {
         <a className="skip-link" href="#MainContent">Skip to content</a>
 
         <header className="page-header">
-        <div className="f748-top-wrapper">
-          <div className="f748-container f748-top-container">
-            <div className="f748-top-left">
-              <span className="f748-top-msg">BOOK ON FLY748.CO.KE</span>
-            </div>
-          </div>
-        </div>
-
         <div className="f748-container">
-          <div className="f748-main-bar">
+          <div className="f748-main-bar f748-main-bar--simple">
             <Link to="/" className="f748-logo">
               <img src="/logo.png" alt="Fly 748" />
             </Link>
-            <nav className="f748-nav" aria-label="Primary navigation">
-              <ul className="f748-nav-list">
-                <li className="f748-nav-item f748-nav-item-dropdown">
-                  <button
-                    type="button"
-                    className="f748-nav-button"
-                    onClick={() => setOpenDropdown(openDropdown === 'flyto' ? null : 'flyto')}
-                    aria-expanded={openDropdown === 'flyto'}
-                    aria-controls="dropdown-flyto"
-                  >
-                    Fly to
-                  </button>
-                  <div id="dropdown-flyto" className={`f748-dropdown ${openDropdown === 'flyto' ? 'f748-dropdown-open' : ''}`}>
-                    {topRoutes.map(route => (
-                      <Link key={route.title} to={route.path}>{route.title}</Link>
-                    ))}
-                  </div>
-                </li>
-                <li className="f748-nav-item f748-nav-item-dropdown">
-                  <button
-                    type="button"
-                    className="f748-nav-button"
-                    onClick={() => setOpenDropdown(openDropdown === 'about' ? null : 'about')}
-                    aria-expanded={openDropdown === 'about'}
-                    aria-controls="dropdown-about"
-                  >
-                    About Us
-                  </button>
-                  <div id="dropdown-about" className={`f748-dropdown ${openDropdown === 'about' ? 'f748-dropdown-open' : ''}`}>
-                    {aboutLinks.map(link => (
-                      <Link key={link.title} to={link.path}>{link.title}</Link>
-                    ))}
-                  </div>
-                </li>
-                <li className="f748-nav-item">
-                  <Link className="f748-nav-link" to="/pages/schedule">Schedule</Link>
-                </li>
-                <li className="f748-nav-item f748-nav-item-dropdown">
-                  <button
-                    type="button"
-                    className="f748-nav-button"
-                    onClick={() => setOpenDropdown(openDropdown === 'travel' ? null : 'travel')}
-                    aria-expanded={openDropdown === 'travel'}
-                    aria-controls="dropdown-travel"
-                  >
-                    Travel Info
-                  </button>
-                  <div id="dropdown-travel" className={`f748-dropdown ${openDropdown === 'travel' ? 'f748-dropdown-open' : ''}`}>
-                    {travelInfo.map(link => (
-                      <Link key={link.title} to={link.path}>{link.title}</Link>
-                    ))}
-                  </div>
-                </li>
-                <li className="f748-nav-item">
-                  <Link className="f748-nav-link" to="/pages/press-room">Press Room</Link>
-                </li>
-                <li className="f748-nav-item">
-                  <Link className="f748-nav-link" to="/gallery">Gallery</Link>
-                </li>
-              </ul>
-            </nav>
-            <button
-              type="button"
-              className="f748-sign-in"
-              onClick={() => {
-                setIsSigninOpen(true);
-                setSigninStage('email');
-                setSigninMessage('');
-                setSigninOtp('');
-                setSentOtp('');
-                setOpenDropdown(null);
-                if (isSignedIn) {
-                  setIsSigninOpen(false);
-                }
-              }}
-            >
-              {isSignedIn ? 'Signed In' : 'Sign In'}
-            </button>
+            <div className="f748-header-actions">
+              <button
+                type="button"
+                className="f748-sign-in"
+                onClick={() => {
+                  setIsSigninOpen(true);
+                  setSigninStage('email');
+                  setSigninMessage('');
+                  setSigninOtp('');
+                  setSentOtp('');
+                  if (isSignedIn) {
+                    setIsSigninOpen(false);
+                  }
+                }}
+              >
+                {isSignedIn ? 'Signed In' : 'Sign In'}
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -920,7 +1020,6 @@ function App() {
           <Route path="/" element={homePage} />
           <Route path="/booking" element={homePage} />
           <Route path="/schedule" element={homePage} />
-          <Route path="/gallery" element={<Gallery />} />
           <Route path="/pages/news" element={<NewsPage />} />
           <Route path="/pages/about-us" element={<AboutUsPage />} />
           <Route path="/pages/csr" element={<CSRPage />} />
