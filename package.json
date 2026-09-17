@@ -8,8 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "start:server": "node server/index.js",
-    "dev:all": "concurrently \"npm run start:server\" \"npm run dev\"",
-    "vercel-build": "npm run build"
+    "dev:all": "concurrently \"npm run start:server\" \"npm run dev\""
   },
   "dependencies": {
     "cors": "^2.8.6",
