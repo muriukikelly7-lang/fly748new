@@ -455,7 +455,7 @@ const HomePage = ({
                         return;
                       }
 
-                      const whatsappNumber = '254738844990';
+                      const whatsappNumber = '0756753634';
                       const message = `Hello Fly 748,\n\nI would like to confirm my booking:\nRoute: ${submitted.origin} → ${submitted.destination}\nDepart: ${submitted.departDate}${submitted.tripType === 'Roundtrip' ? `\nReturn: ${submitted.returnDate}` : ''}\nPassengers: ${submitted.passengers}\nFlight: ${submitted.flightNo} (${submitted.reg})\nTotal: Ksh. ${submitted.totalPrice.toLocaleString()}\n\nPassenger details:\nName: ${passengerInfo.fullName}\nID/Passport: ${passengerInfo.idNumber}\nPassenger type: ${passengerInfo.passengerType}\nPhone: ${passengerInfo.phone}\nEmail: ${passengerInfo.email}\nSpecial requests: ${passengerInfo.specialRequest || 'None'}\n\nPlease help me complete this booking.`;
                       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
                       window.open(whatsappUrl, '_blank');
@@ -684,10 +684,10 @@ const HomePage = ({
         <div className="contact-card contact-card--actions">
           <h3>Call our support team</h3>
           <p>Available for flight inquiries, bookings, and travel assistance.</p>
-          <span>+254738844990</span>
+          <span>0756753634</span>
           <div className="contact-actions">
-            <a className="contact-action-btn contact-action-btn--call" href="tel:+254738844990">Call</a>
-            <a className="contact-action-btn contact-action-btn--whatsapp" href="https://wa.me/254738844990?text=Hello%20Fly%20748%2C%20I%20would%20like%20assistance." target="_blank" rel="noreferrer" aria-label="Contact us on WhatsApp">
+            <a className="contact-action-btn contact-action-btn--call" href="tel:+254756753634">Call</a>
+            <a className="contact-action-btn contact-action-btn--whatsapp" href="https://wa.me/254756753634?text=Hello%20Fly%20748%2C%20I%20would%20like%20assistance." target="_blank" rel="noreferrer" aria-label="Contact us on WhatsApp">
               <span className="contact-action-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
                   <path d="M12.04 2.5a9.49 9.49 0 0 0-8.2 14.08L2.5 21.5l5.06-1.33A9.49 9.49 0 1 0 12.04 2.5Zm0 17.32a7.82 7.82 0 0 1-3.98-1.1l-.28-.17-3.01.79.8-2.93-.18-.3A7.82 7.82 0 1 1 12.04 19.82Zm4.42-5.84c-.24-.12-1.43-.7-1.65-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.93-1.18-.71-.64-1.19-1.43-1.33-1.67-.14-.24-.01-.37.11-.49.1-.1.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.47-.39-.41-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.85.83-.85 2.03 0 1.2.87 2.36.99 2.52.12.16 1.72 2.63 4.17 3.68.58.25 1.03.4 1.38.52.58.18 1.11.16 1.53.1.47-.07 1.43-.58 1.63-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28Z" fill="currentColor"/>
@@ -760,7 +760,7 @@ const ContactPage = () => (
     <div className="page-copy">
       <p>Fly 748 - Hangar 23, Wilson Airport</p>
       <p>Fly 748 - JKIA, Terminal 2</p>
-      <p>Call us: +254738844990</p>
+      <p>Call us: 0756753634</p>
       <p>Office line: 020 201 9056</p>
       <p>Email: customerdesk@fly748.co.ke</p>
     </div>
@@ -1203,7 +1203,7 @@ function App() {
             <p>Fly 748 - Hangar 23, Wilson Airport</p>
             <p>Fly 748 - JKIA, Terminal 2</p>
             <span className="footer-heading small-heading">Office Lines</span>
-            <p>+254738844990</p>
+            <p>0756753634</p>
             <p>020 201 9056</p>
             <p>Call us from: 5:00AM - 10:00PM</p>
             <p>Email us anytime:</p>
