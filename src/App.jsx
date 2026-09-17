@@ -3,9 +3,11 @@ import { useState, useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, Link, useParams } from 'react-router-dom';
 import Gallery from './components/Gallery';
 
+const assetFromBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+
 const heroSlides = [
-  '/hero-slide-1.png',
-  '/hero-slide-2.png',
+  assetFromBase('hero-slide-1.png'),
+  assetFromBase('hero-slide-2.png'),
 ];
 
 const topRoutes = [
@@ -99,84 +101,84 @@ const destinations = [
 const galleryImages = [
   {
     id: 1,
-    src: '/gallery/crew-pre-flight-briefing.jpg',
+    src: assetFromBase('gallery/crew-pre-flight-briefing.jpg'),
     alt: 'Crew Pre-Flight Briefing',
     category: 'Team',
     title: 'Crew Pre-Flight Briefing'
   },
   {
     id: 2,
-    src: '/gallery/pilots-at-aircraft.jpg',
+    src: assetFromBase('gallery/pilots-at-aircraft.jpg'),
     alt: 'Pilots at Aircraft',
     category: 'Team',
     title: 'Pilots at Aircraft'
   },
   {
     id: 3,
-    src: '/gallery/flight-attendants-team.jpg',
+    src: assetFromBase('gallery/flight-attendants-team.jpg'),
     alt: 'Flight Attendants Team',
     category: 'Team',
     title: 'Flight Attendants Team'
   },
   {
     id: 4,
-    src: '/gallery/fly748-aircraft-at-gate.jpg',
+    src: assetFromBase('gallery/fly748-aircraft-at-gate.jpg'),
     alt: 'FLY748 Aircraft at Gate',
     category: 'Aircraft',
     title: 'FLY748 Aircraft at Gate'
   },
   {
     id: 5,
-    src: '/gallery/atr-turboprop-aircraft.jpg',
+    src: assetFromBase('gallery/atr-turboprop-aircraft.jpg'),
     alt: 'ATR Turboprop Aircraft',
     category: 'Aircraft',
     title: 'ATR Turboprop Aircraft'
   },
   {
     id: 6,
-    src: '/gallery/ground-operations-team.jpg',
+    src: assetFromBase('gallery/ground-operations-team.jpg'),
     alt: 'Ground Operations Team',
     category: 'Operations',
     title: 'Ground Operations Team'
   },
   {
     id: 7,
-    src: '/gallery/premium-cabin-seating.jpg',
+    src: assetFromBase('gallery/premium-cabin-seating.jpg'),
     alt: 'Premium Cabin Seating',
     category: 'Comfort',
     title: 'Premium Cabin Seating'
   },
   {
     id: 8,
-    src: '/gallery/cabin-aisle-view.jpg',
+    src: assetFromBase('gallery/cabin-aisle-view.jpg'),
     alt: 'Cabin Aisle View',
     category: 'Comfort',
     title: 'Cabin Aisle View'
   },
   {
     id: 9,
-    src: '/gallery/overhead-bin-luggage.jpg',
+    src: assetFromBase('gallery/overhead-bin-luggage.jpg'),
     alt: 'Overhead Bin Luggage',
     category: 'Comfort',
     title: 'Overhead Bin Luggage'
   },
   {
     id: 10,
-    src: '/gallery/aircraft-maintenance-team.jpg',
+    src: assetFromBase('gallery/aircraft-maintenance-team.jpg'),
     alt: 'Aircraft Maintenance Team',
     category: 'Maintenance',
     title: 'Aircraft Maintenance Team'
   },
   {
     id: 11,
-    src: '/gallery/ground-support-vehicle.jpg',
+    src: assetFromBase('gallery/ground-support-vehicle.jpg'),
     alt: 'Ground Support Vehicle',
     category: 'Operations',
     title: 'Ground Support Vehicle'
   },
   {
     id: 12,
-    src: '/gallery/fly748-partnership-event.jpg',
+    src: assetFromBase('gallery/fly748-partnership-event.jpg'),
     alt: 'FLY748 Partnership Event',
     category: 'Events',
     title: 'FLY748 Partnership Event'
@@ -1103,14 +1105,14 @@ function App() {
                 type="button"
                 className="f748-sign-in"
                 onClick={() => {
+                  if (isSignedIn) {
+                    return;
+                  }
                   setIsSigninOpen(true);
                   setSigninStage('email');
                   setSigninMessage('');
                   setSigninOtp('');
                   setSentOtp('');
-                  if (isSignedIn) {
-                    setIsSigninOpen(false);
-                  }
                 }}
               >
                 {isSignedIn ? 'Signed In' : 'Sign In'}

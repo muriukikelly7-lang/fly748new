@@ -11,7 +11,7 @@ export default async function handler(req, res) {
   }
 
   const otp = `${Math.floor(100000 + Math.random() * 900000)}`;
-  const mailProvider = process.env.MAIL_PROVIDER || 'console';
+  const mailProvider = process.env.MAIL_PROVIDER || 'smtp';
   const smtpHost = process.env.SMTP_HOST;
   const smtpPort = Number(process.env.SMTP_PORT || 587);
   const smtpUser = process.env.SMTP_USER;
@@ -40,8 +40,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: true, otp, message: 'OTP sent successfully.', provider: 'smtp' });
     }
 
-    console.log(`[OTP] To: ${email} | Code: ${otp}`);
-    return res.status(200).json({ ok: true, otp, message: 'OTP generated successfully. Configure SMTP to deliver mail for real.', provider: 'console' });
+    return res.status(503).json({ error: 'Email delivery is not configured. Set MAIL_PROVIDER=smtp and the SMTP credentials.' });
   } catch (error) {
     console.error('OTP send failed:', error);
     return res.status(500).json({ error: 'Unable to send OTP at the moment.' });

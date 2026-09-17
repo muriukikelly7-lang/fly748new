@@ -4,7 +4,7 @@ import cors from 'cors';
 const app = express();
 const port = process.env.PORT || 4000;
 
-const mailProvider = process.env.MAIL_PROVIDER || 'console';
+const mailProvider = process.env.MAIL_PROVIDER || 'smtp';
 const smtpHost = process.env.SMTP_HOST;
 const smtpPort = Number(process.env.SMTP_PORT || 587);
 const smtpUser = process.env.SMTP_USER;
@@ -20,7 +20,7 @@ app.get('/api/status', (req, res) => {
 
 const sendOtpEmail = async (email, otp) => {
   if (mailProvider === 'console') {
-    console.log(`[OTP] To: ${email} | Code: ${otp}`);
+    console.log(`[Fly 748 sign-in] OTP for ${email}: ${otp}`);
     return { ok: true, provider: 'console' };
   }
 
@@ -46,7 +46,9 @@ const sendOtpEmail = async (email, otp) => {
     return { ok: true, provider: 'smtp' };
   }
 
-  throw new Error('Email provider is not configured.');
+  console.warn('SMTP is not configured; falling back to console mode (dev only).');
+  console.log(`[Fly 748 sign-in] OTP for ${email}: ${otp}`);
+  return { ok: true, provider: 'console' };
 };
 
 app.post('/api/auth/request-otp', async (req, res) => {
@@ -59,8 +61,8 @@ app.post('/api/auth/request-otp', async (req, res) => {
   const otp = `${Math.floor(100000 + Math.random() * 900000)}`;
 
   try {
-    await sendOtpEmail(email, otp);
-    res.json({ ok: true, otp, message: 'OTP sent successfully.' });
+    const result = await sendOtpEmail(email, otp);
+    res.json({ ok: true, otp, message: 'OTP sent successfully.', provider: result.provider });
   } catch (error) {
     console.error('OTP send failed:', error);
     res.status(500).json({ error: 'Unable to send OTP at the moment.' });
