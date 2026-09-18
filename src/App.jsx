@@ -457,7 +457,7 @@ const HomePage = ({
 
                       const whatsappNumber = '0756753634';
                       const message = `Hello Fly 748,\n\nI would like to confirm my booking:\nRoute: ${submitted.origin} → ${submitted.destination}\nDepart: ${submitted.departDate}${submitted.tripType === 'Roundtrip' ? `\nReturn: ${submitted.returnDate}` : ''}\nPassengers: ${submitted.passengers}\nFlight: ${submitted.flightNo} (${submitted.reg})\nTotal: Ksh. ${submitted.totalPrice.toLocaleString()}\n\nPassenger details:\nName: ${passengerInfo.fullName}\nID/Passport: ${passengerInfo.idNumber}\nPassenger type: ${passengerInfo.passengerType}\nPhone: ${passengerInfo.phone}\nEmail: ${passengerInfo.email}\nSpecial requests: ${passengerInfo.specialRequest || 'None'}\n\nPlease help me complete this booking.`;
-                      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                      const whatsappUrl = `https://wa.me/254${whatsappNumber.replace(/^0/, '')}?text=${encodeURIComponent(message)}`;
                       window.open(whatsappUrl, '_blank');
                     }}
                   >
