@@ -20,7 +20,7 @@ body {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url('./watermark.png');
+  background-image: url('/fly748new/watermark.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 600px;

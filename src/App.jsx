@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, Link, useParams } from 'react-router-dom';
 import Gallery from './components/Gallery';
 
-const assetFromBase = (path) => `./${path.replace(/^\/+/, '')}`;
+const assetFromBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
 
 const heroSlides = [
   assetFromBase('hero-slide-1.png'),
