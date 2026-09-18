@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, Link, useParams } from 'react-router-dom';
 import Gallery from './components/Gallery';
 
-const assetFromBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+const assetFromBase = (path) => `./${path.replace(/^\/+/, '')}`;
 
 const heroSlides = [
   assetFromBase('hero-slide-1.png'),
@@ -478,7 +478,7 @@ const HomePage = ({
       </div>
       <div className="deals-grid">
         <article className="deal-card">
-          <img src="/mombasa-coastal.jpg" alt="Mombasa Coastal" />
+          <img src={assetFromBase('mombasa-coastal.jpg')} alt="Mombasa Coastal" />
           <div className="deal-copy">
             <span>From Ksh. 7,700</span>
             <h3>Mombasa Coastal • Breezy</h3>
@@ -486,7 +486,7 @@ const HomePage = ({
           </div>
         </article>
         <article className="deal-card">
-          <img src="/ukunda.jpg" alt="Ukunda Relaxing" />
+          <img src={assetFromBase('ukunda.jpg')} alt="Ukunda Relaxing" />
           <div className="deal-copy">
             <span>From Ksh. 7,700</span>
             <h3>Ukunda Relaxing</h3>
@@ -494,7 +494,7 @@ const HomePage = ({
           </div>
         </article>
         <article className="deal-card">
-          <img src="/malindi.jpg" alt="Malindi Beach" />
+          <img src={assetFromBase('malindi.jpg')} alt="Malindi Beach" />
           <div className="deal-copy">
             <span>From Ksh. 7,700</span>
             <h3>Malindi Beach • Coastal</h3>
@@ -502,7 +502,7 @@ const HomePage = ({
           </div>
         </article>
         <article className="deal-card">
-          <img src="/maasai-mara.jpg" alt="Maasai Mara" />
+          <img src={assetFromBase('maasai-mara.jpg')} alt="Maasai Mara" />
           <div className="deal-copy">
             <span>From Ksh. 9,500</span>
             <h3>Maasai Mara Safari</h3>
@@ -1098,7 +1098,7 @@ function App() {
         <div className="f748-container">
           <div className="f748-main-bar f748-main-bar--simple">
             <Link to="/" className="f748-logo">
-              <img src="/logo.png" alt="Fly 748" />
+              <img src={assetFromBase('logo.png')} alt="Fly 748" />
             </Link>
             <div className="f748-header-actions">
               <button
@@ -1176,7 +1176,7 @@ function App() {
       <footer className="footer">
         <div className="footer-widgets">
           <div className="footer-column footer-brand">
-            <img className="footer-logo" src="/logo.png" alt="Fly 748" />
+            <img className="footer-logo" src={assetFromBase('logo.png')} alt="Fly 748" />
           </div>
           <div className="footer-column footer-menu">
             <span className="footer-heading">Quick Links</span>
