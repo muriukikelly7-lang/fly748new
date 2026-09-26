@@ -489,18 +489,27 @@ body {
 .booking-form input,
 .booking-form select {
   width: 100%;
+  min-height: 52px;
   padding: 14px 16px;
+  background: #ffffff;
   border-radius: 16px;
-  border: 1px solid #d5e2f1;
+  border: 1px solid #9aacc1;
   font-size: 1rem;
-  color: #1d324f;
+  color: #112340;
+  caret-color: #0059b3;
+  color-scheme: light;
+}
+
+.booking-form input::placeholder {
+  color: #52657d;
+  opacity: 1;
 }
 
 .booking-form input:focus,
 .booking-form select:focus {
   outline: none;
   border-color: #0059b3;
-  box-shadow: 0 0 0 4px rgba(0, 89, 179, 0.12);
+  box-shadow: 0 0 0 4px rgba(0, 89, 179, 0.2);
 }
 
 .alert {
