@@ -747,10 +747,19 @@ body {
   cursor: not-allowed;
 }
 
-.seat-button-selected {
-  border-color: #a8791c;
-  background: #d39b32;
+.seat-button.seat-button-selected,
+.seat-button.seat-button-selected:hover:not(:disabled),
+.seat-button.seat-button-selected:focus-visible {
+  transform: scale(1.04);
+  border: 3px solid #875300;
+  background: #f0b936;
   color: #172c43;
+  box-shadow: 0 0 0 3px rgba(211, 155, 50, 0.35);
+}
+
+.seat-button.seat-button-selected::before {
+  content: '✓ ';
+  font-weight: 900;
 }
 
 .seat-selection-actions {
