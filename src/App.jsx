@@ -221,6 +221,7 @@ const HomePage = ({
   setTripType,
   booking,
   handleChange,
+  onSelectFare,
   handleSubmit,
   error,
   submitted,
@@ -494,10 +495,19 @@ const HomePage = ({
       </div>
       <div className="fares-grid">
         {faresFromNairobi.map(({ destination, price }) => (
-          <div className="fare-row" key={destination}>
+          <button
+            type="button"
+            className="fare-row"
+            key={destination}
+            aria-label={`Book Nairobi to ${destination} for KSh ${price.toLocaleString()}`}
+            onClick={(event) => {
+              onSelectFare(destination);
+              scrollToSection(event, 'booking');
+            }}
+          >
             <span>Nairobi - {destination}</span>
             <strong>KSh {price.toLocaleString()}</strong>
-          </div>
+          </button>
         ))}
       </div>
     </section>
@@ -928,6 +938,13 @@ function App() {
     setError('');
   };
 
+  const handleFareSelect = destination => {
+    setBooking(prev => ({ ...prev, from: 'Nairobi', to: destination }));
+    setSubmitted(false);
+    setShowPassengerForm(false);
+    setError('');
+  };
+
   const handleSignInEmail = async event => {
     event.preventDefault();
     if (!signinEmail.trim()) {
@@ -1068,6 +1085,7 @@ function App() {
       setTripType={setTripType}
       booking={booking}
       handleChange={handleChange}
+      onSelectFare={handleFareSelect}
       handleSubmit={handleSubmit}
       error={error}
       submitted={submitted}

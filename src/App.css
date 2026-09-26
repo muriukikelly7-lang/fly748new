@@ -653,11 +653,23 @@ body {
 }
 
 .fare-row {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   gap: 16px;
   padding: 16px 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
   border-bottom: 1px solid #dce5ef;
+  cursor: pointer;
+}
+
+.fare-row:hover,
+.fare-row:focus-visible {
+  background: #f4f8ff;
 }
 
 .fare-row strong {
