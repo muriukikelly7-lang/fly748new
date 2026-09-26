@@ -551,7 +551,7 @@ const HomePage = ({
                             window.open(whatsappUrl, '_blank');
                           }}
                         >
-                          Continue to WhatsApp
+                          Confirm booking
                         </button>
                       </div>
                     </div>
