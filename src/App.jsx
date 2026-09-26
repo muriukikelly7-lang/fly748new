@@ -5,6 +5,9 @@ import Gallery from './components/Gallery';
 
 const whatsappNumber = '0738844990';
 const whatsappInternationalNumber = `254${whatsappNumber.replace(/^0/, '')}`;
+const seatColumns = ['A', 'B', 'C', 'D'];
+const seatRows = Array.from({ length: 8 }, (_, index) => index + 1);
+const reservedSeats = new Set(['A1', 'B2', 'C3', 'C5', 'B6', 'A7', 'D8']);
 const assetFromBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
 
 const heroSlides = [
@@ -238,6 +241,10 @@ const HomePage = ({
   footerLinks,
   showPassengerForm,
   setShowPassengerForm,
+  seatSelectionOpen,
+  setSeatSelectionOpen,
+  selectedSeats,
+  toggleSeat,
   passengerInfo,
   setPassengerInfo,
   formError,
@@ -396,7 +403,9 @@ const HomePage = ({
               )}
               {showPassengerForm && (
                 <div className="passenger-details-form">
-                  <h4>Passenger details</h4>
+                  {!seatSelectionOpen ? (
+                    <>
+                      <h4>Passenger details</h4>
                   {formError && <div className="alert">{formError}</div>}
                   <div className="field-grid">
                     <label>
@@ -463,24 +472,90 @@ const HomePage = ({
                       />
                     </label>
                   </div>
-                  <button
-                    type="button"
-                    className="button button-primary continue-button"
-                    onClick={() => {
-                      const required = ['fullName', 'idNumber', 'phone', 'email'];
-                      const missing = required.filter(key => !passengerInfo[key].trim());
-                      if (missing.length) {
-                        setFormError('Please complete all required passenger fields before continuing.');
-                        return;
-                      }
+                      <button
+                        type="button"
+                        className="button button-primary continue-button"
+                        onClick={() => {
+                          const required = ['fullName', 'idNumber', 'phone', 'email'];
+                          const missing = required.filter(key => !passengerInfo[key].trim());
+                          if (missing.length) {
+                            setFormError('Please complete all required passenger fields before continuing.');
+                            return;
+                          }
 
-                      const message = `Hello Fly 748,\n\nI would like to confirm my booking:\nRoute: ${submitted.origin} → ${submitted.destination}\nDepart: ${submitted.departDate}${submitted.tripType === 'Roundtrip' ? `\nReturn: ${submitted.returnDate}` : ''}\nPassengers: ${submitted.passengers}\nFlight: ${submitted.flightNo} (${submitted.reg})\nTotal: Ksh. ${submitted.totalPrice.toLocaleString()}\n\nPassenger details:\nName: ${passengerInfo.fullName}\nID/Passport: ${passengerInfo.idNumber}\nPassenger type: ${passengerInfo.passengerType}\nPhone: ${passengerInfo.phone}\nEmail: ${passengerInfo.email}\nSpecial requests: ${passengerInfo.specialRequest || 'None'}\n\nPlease help me complete this booking.`;
-                      const whatsappUrl = `https://wa.me/${whatsappInternationalNumber}?text=${encodeURIComponent(message)}`;
-                      window.open(whatsappUrl, '_blank');
-                    }}
-                  >
-                    Continue to WhatsApp
-                  </button>
+                          setFormError('');
+                          setSeatSelectionOpen(true);
+                        }}
+                      >
+                        Continue to seat selection
+                      </button>
+                    </>
+                  ) : (
+                    <div className="seat-selection">
+                      <div className="seat-selection-header">
+                        <div>
+                          <h4>Choose your seats</h4>
+                          <p>{submitted.origin} <span aria-hidden="true">→</span> {submitted.destination} · {submitted.flightNo}</p>
+                        </div>
+                        <p className="seat-count" role="status">
+                          {selectedSeats.length} of {submitted.passengerCount} seats selected
+                        </p>
+                      </div>
+                      {formError && <div className="alert">{formError}</div>}
+                      <div className="seat-legend" aria-label="Seat availability legend">
+                        <span><i className="seat-legend-swatch seat-available" />Available</span>
+                        <span><i className="seat-legend-swatch seat-reserved" />Reserved</span>
+                        <span><i className="seat-legend-swatch seat-selected" />Selected</span>
+                      </div>
+                      <div className="seat-cockpit" aria-label="Front of aircraft">✈ Cockpit</div>
+                      <div className="seat-map" role="group" aria-label="Choose seats">
+                        <div className="seat-map-headings" aria-hidden="true">
+                          <span />
+                          {seatColumns.map(column => <span key={column}>{column}</span>)}
+                        </div>
+                        {seatRows.map(row => (
+                          <div className="seat-map-row" key={row}>
+                            <span className="seat-row-number" aria-hidden="true">{row}</span>
+                            {seatColumns.map(column => {
+                              const seat = `${column}${row}`;
+                              const reserved = reservedSeats.has(seat);
+                              const selected = selectedSeats.includes(seat);
+                              return (
+                                <button
+                                  type="button"
+                                  key={seat}
+                                  className={`seat-button${reserved ? ' seat-button-reserved' : ''}${selected ? ' seat-button-selected' : ''}`}
+                                  disabled={reserved}
+                                  aria-pressed={selected}
+                                  aria-label={`${seat}, ${reserved ? 'reserved' : selected ? 'selected' : 'available'}`}
+                                  onClick={() => toggleSeat(seat)}
+                                >
+                                  {seat}
+                                </button>
+                              );
+                            })}
+                          </div>
+                        ))}
+                      </div>
+                      <div className="seat-selection-actions">
+                        <button type="button" className="button button-secondary seat-back-button" onClick={() => setSeatSelectionOpen(false)}>
+                          Back to passenger details
+                        </button>
+                        <button
+                          type="button"
+                          className="button button-primary continue-button"
+                          disabled={selectedSeats.length !== submitted.passengerCount}
+                          onClick={() => {
+                            const message = `Hello Fly 748,\n\nI would like to confirm my booking:\nRoute: ${submitted.origin} → ${submitted.destination}\nDepart: ${submitted.departDate}${submitted.tripType === 'Roundtrip' ? `\nReturn: ${submitted.returnDate}` : ''}\nPassengers: ${submitted.passengers}\nSeats: ${selectedSeats.join(', ')}\nFlight: ${submitted.flightNo} (${submitted.reg})\nTotal: Ksh. ${submitted.totalPrice.toLocaleString()}\n\nPassenger details:\nName: ${passengerInfo.fullName}\nID/Passport: ${passengerInfo.idNumber}\nPassenger type: ${passengerInfo.passengerType}\nPhone: ${passengerInfo.phone}\nEmail: ${passengerInfo.email}\nSpecial requests: ${passengerInfo.specialRequest || 'None'}\n\nPlease help me complete this booking.`;
+                            const whatsappUrl = `https://wa.me/${whatsappInternationalNumber}?text=${encodeURIComponent(message)}`;
+                            window.open(whatsappUrl, '_blank');
+                          }}
+                        >
+                          Continue to WhatsApp
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -891,6 +966,8 @@ function App() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [showPassengerForm, setShowPassengerForm] = useState(false);
+  const [seatSelectionOpen, setSeatSelectionOpen] = useState(false);
+  const [selectedSeats, setSelectedSeats] = useState([]);
   const [passengerInfo, setPassengerInfo] = useState({
     fullName: '',
     idNumber: '',
@@ -943,7 +1020,22 @@ function App() {
     setBooking(prev => ({ ...prev, from: 'Nairobi', to: destination }));
     setSubmitted(false);
     setShowPassengerForm(false);
+    setSeatSelectionOpen(false);
+    setSelectedSeats([]);
     setError('');
+  };
+
+  const toggleSeat = seat => {
+    setSelectedSeats(currentSeats => {
+      if (currentSeats.includes(seat)) {
+        return currentSeats.filter(selectedSeat => selectedSeat !== seat);
+      }
+      if (currentSeats.length >= (submitted?.passengerCount || 1)) {
+        return currentSeats;
+      }
+      return [...currentSeats, seat];
+    });
+    setFormError('');
   };
 
   const handleSignInEmail = async event => {
@@ -1062,6 +1154,8 @@ function App() {
 
     setSubmitted(result);
     setShowPassengerForm(false);
+    setSeatSelectionOpen(false);
+    setSelectedSeats([]);
     setPassengerInfo({
       fullName: '',
       idNumber: '',
@@ -1101,6 +1195,10 @@ function App() {
       footerLinks={footerLinks}
       showPassengerForm={showPassengerForm}
       setShowPassengerForm={setShowPassengerForm}
+      seatSelectionOpen={seatSelectionOpen}
+      setSeatSelectionOpen={setSeatSelectionOpen}
+      selectedSeats={selectedSeats}
+      toggleSeat={toggleSeat}
       passengerInfo={passengerInfo}
       setPassengerInfo={setPassengerInfo}
       formError={formError}
