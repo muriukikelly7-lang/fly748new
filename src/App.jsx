@@ -10,6 +10,22 @@ const heroSlides = [
   assetFromBase('hero-slide-2.png'),
 ];
 
+const faresFromNairobi = [
+  { destination: 'Eldoret', price: 5000 },
+  { destination: 'Kisumu', price: 6000 },
+  { destination: 'Migori', price: 5200 },
+  { destination: 'Homa Bay', price: 7000 },
+  { destination: 'Lodwar', price: 10500 },
+  { destination: 'Kitale', price: 5500 },
+  { destination: 'Mombasa', price: 7000 },
+  { destination: 'Kakamega', price: 8000 },
+];
+
+const normalizeLocation = (location) => {
+  const normalized = location.trim().toLowerCase().replace(/[^a-z]/g, '');
+  return normalized === 'homeboy' ? 'homabay' : normalized;
+};
+
 const topRoutes = [
   { title: 'Mombasa', path: '/pages/mombasa' },
   { title: 'Ukunda', path: '/pages/ukunda' },
@@ -473,42 +489,16 @@ const HomePage = ({
 
     <section className="section deals-section">
       <div className="section-header">
-        <p>Deals from Nairobi</p>
-        <h2>Discover where your next journey could take you.</h2>
+        <p>Fly 748 Airlines</p>
+        <h2>Fares from Nairobi</h2>
       </div>
-      <div className="deals-grid">
-        <article className="deal-card">
-          <img src={assetFromBase('mombasa-coastal.jpg')} alt="Mombasa Coastal" />
-          <div className="deal-copy">
-            <span>From Ksh. 7,700</span>
-            <h3>Mombasa Coastal • Breezy</h3>
-            <a href="#/booking" onClick={(event) => scrollToSection(event, 'booking')}>Book Flight →</a>
+      <div className="fares-grid">
+        {faresFromNairobi.map(({ destination, price }) => (
+          <div className="fare-row" key={destination}>
+            <span>Nairobi - {destination}</span>
+            <strong>KSh {price.toLocaleString()}</strong>
           </div>
-        </article>
-        <article className="deal-card">
-          <img src={assetFromBase('ukunda.jpg')} alt="Ukunda Relaxing" />
-          <div className="deal-copy">
-            <span>From Ksh. 7,700</span>
-            <h3>Ukunda Relaxing</h3>
-            <a href="#/booking" onClick={(event) => scrollToSection(event, 'booking')}>Book Flight →</a>
-          </div>
-        </article>
-        <article className="deal-card">
-          <img src={assetFromBase('malindi.jpg')} alt="Malindi Beach" />
-          <div className="deal-copy">
-            <span>From Ksh. 7,700</span>
-            <h3>Malindi Beach • Coastal</h3>
-            <a href="#/booking" onClick={(event) => scrollToSection(event, 'booking')}>Book Flight →</a>
-          </div>
-        </article>
-        <article className="deal-card">
-          <img src={assetFromBase('maasai-mara.jpg')} alt="Maasai Mara" />
-          <div className="deal-copy">
-            <span>From Ksh. 9,500</span>
-            <h3>Maasai Mara Safari</h3>
-            <a href="#/booking" onClick={(event) => scrollToSection(event, 'booking')}>Book Flight →</a>
-          </div>
-        </article>
+        ))}
       </div>
     </section>
 
@@ -1017,7 +1007,17 @@ function App() {
       },
     };
 
-    const route = routeMap[origin]?.[destination];
+    for (const { destination: fareDestination, price } of faresFromNairobi) {
+      const defaultFlight = { flightNo: 'F748-101', reg: '5Y-F748', time: '08:30', returnTime: '10:50' };
+      const outbound = routeMap.Nairobi[fareDestination] || defaultFlight;
+      const inbound = routeMap[fareDestination]?.Nairobi || defaultFlight;
+      routeMap.Nairobi[fareDestination] = { ...outbound, price };
+      routeMap[fareDestination] = { Nairobi: { ...inbound, price } };
+    }
+
+    const routeOrigin = Object.keys(routeMap).find(key => normalizeLocation(key) === normalizeLocation(origin));
+    const routeDestination = Object.keys(routeMap[routeOrigin] || {}).find(key => normalizeLocation(key) === normalizeLocation(destination));
+    const route = routeMap[routeOrigin]?.[routeDestination];
     const fallbackRoute = routeMap.Nairobi?.[destination] || routeMap[origin]?.Nairobi;
     const chosenRoute = route || fallbackRoute;
 

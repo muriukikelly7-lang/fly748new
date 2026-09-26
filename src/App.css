@@ -20,7 +20,7 @@ body {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url('/fly748new/watermark.png');
+  background-image: url('/watermark.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 600px;
@@ -644,6 +644,25 @@ body {
 .social-grid,
 .contact-grid {
   grid-template-columns: repeat(2, minmax(220px, 1fr));
+}
+
+.fares-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 32px;
+}
+
+.fare-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #dce5ef;
+}
+
+.fare-row strong {
+  color: #0059b3;
+  white-space: nowrap;
 }
 
 .deal-card,
@@ -1341,6 +1360,7 @@ body {
   }
 
   .deals-grid,
+  .fares-grid,
   .why-grid,
   .support-grid,
   .fleet-grid,
@@ -1394,6 +1414,7 @@ body {
   }
 
   .deals-grid,
+  .fares-grid,
   .why-grid,
   .support-grid,
   .fleet-grid,
