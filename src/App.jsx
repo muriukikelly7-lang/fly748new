@@ -9,6 +9,7 @@ const seatColumns = ['A', 'B', 'C', 'D'];
 const seatRows = Array.from({ length: 8 }, (_, index) => index + 1);
 const reservedSeats = new Set(['A1', 'B2', 'C3', 'C5', 'B6', 'A7', 'D8']);
 const assetFromBase = (path) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`;
+const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
 const heroSlides = [
   assetFromBase('hero-slide-1.png'),
@@ -1046,7 +1047,7 @@ function App() {
     }
 
     try {
-      const response = await fetch('/api/auth/request-otp', {
+      const response = await fetch(`${apiBaseUrl}/api/auth/request-otp`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: signinEmail.trim() }),
