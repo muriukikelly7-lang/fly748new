@@ -366,13 +366,18 @@ const HomePage = ({
                 </div>
                 <div className="price-section">
                   <div className="price-per-passenger">
-                    <small>Price per passenger</small>
+                    <small>Fare per passenger / journey</small>
                     <strong>Ksh. {submitted.pricePerPassenger.toLocaleString()}</strong>
                   </div>
                   <div className="price-divider">×</div>
                   <div className="passenger-count">
                     <small>{submitted.passengerCount} passenger{submitted.passengerCount > 1 ? 's' : ''}</small>
                     <strong>{submitted.passengerCount}</strong>
+                  </div>
+                  <div className="price-divider">×</div>
+                  <div className="journey-count">
+                    <small>{submitted.journeyCount} journey{submitted.journeyCount > 1 ? 's' : ''}</small>
+                    <strong>{submitted.journeyCount}</strong>
                   </div>
                   <div className="price-equals">=</div>
                   <div className="total-price">
@@ -545,7 +550,7 @@ const HomePage = ({
                           className="button button-primary continue-button"
                           disabled={selectedSeats.length !== submitted.passengerCount}
                           onClick={() => {
-                            const message = `Hello Fly 748,\n\nI would like to confirm my booking:\nRoute: ${submitted.origin} → ${submitted.destination}\nDepart: ${submitted.departDate}${submitted.tripType === 'Roundtrip' ? `\nReturn: ${submitted.returnDate}` : ''}\nPassengers: ${submitted.passengers}\nSeats: ${selectedSeats.join(', ')}\nFlight: ${submitted.flightNo} (${submitted.reg})\nTotal: Ksh. ${submitted.totalPrice.toLocaleString()}\n\nPassenger details:\nName: ${passengerInfo.fullName}\nID/Passport: ${passengerInfo.idNumber}\nPassenger type: ${passengerInfo.passengerType}\nPhone: ${passengerInfo.phone}\nEmail: ${passengerInfo.email}\nSpecial requests: ${passengerInfo.specialRequest || 'None'}\n\nPlease help me complete this booking.`;
+                            const message = `Hello Fly 748,\n\nI would like to confirm my booking:\nRoute: ${submitted.origin} → ${submitted.destination}\nDepart: ${submitted.departDate}${submitted.tripType === 'Roundtrip' ? `\nReturn: ${submitted.returnDate}` : ''}\nFare per passenger per journey: Ksh. ${submitted.pricePerPassenger.toLocaleString()}\nJourneys: ${submitted.journeyCount}\nPassengers: ${submitted.passengers}\nTotal: Ksh. ${submitted.totalPrice.toLocaleString()}\nSeats: ${selectedSeats.join(', ')}\nFlight: ${submitted.flightNo} (${submitted.reg})\n\nPassenger details:\nName: ${passengerInfo.fullName}\nID/Passport: ${passengerInfo.idNumber}\nPassenger type: ${passengerInfo.passengerType}\nPhone: ${passengerInfo.phone}\nEmail: ${passengerInfo.email}\nSpecial requests: ${passengerInfo.specialRequest || 'None'}\n\nPlease help me complete this booking.`;
                             const whatsappUrl = `https://wa.me/${whatsappInternationalNumber}?text=${encodeURIComponent(message)}`;
                             window.open(whatsappUrl, '_blank');
                           }}
@@ -1090,9 +1095,7 @@ function App() {
     const departDate = booking.depart || 'Today';
     const returnDate = booking.ret || '';
     const passengers = booking.passengers || '1 Passenger';
-    
-    // Extract passenger count from string like "2 Passengers"
-    const passengerCount = parseInt(passengers.split(' ')[0]) || 1;
+    const passengerCount = Number.parseInt(passengers, 10);
 
     const routeMap = {
       Nairobi: {
@@ -1128,6 +1131,8 @@ function App() {
     const roundTripLabel = tripType === 'Roundtrip'
       ? `Return ${returnDate || 'selected return date'}`
       : 'One-way journey';
+    const journeyCount = tripType === 'Roundtrip' ? 2 : 1;
+    const pricePerPassenger = chosenRoute?.price || 7700;
 
     const result = {
       origin,
@@ -1140,9 +1145,10 @@ function App() {
       reg: chosenRoute?.reg || '5Y-F748',
       departTime: chosenRoute?.time || '08:30',
       returnTime: chosenRoute?.returnTime || '10:50',
-      pricePerPassenger: chosenRoute?.price || 7700,
-      totalPrice: (chosenRoute?.price || 7700) * passengerCount,
+      pricePerPassenger,
+      totalPrice: pricePerPassenger * passengerCount * journeyCount,
       passengerCount,
+      journeyCount,
       roundTripLabel,
     };
 

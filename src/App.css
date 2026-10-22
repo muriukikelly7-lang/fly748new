@@ -244,12 +244,14 @@ body {
 
   .price-per-passenger small,
   .passenger-count small,
+  .journey-count small,
   .total-price small {
     font-size: 0.7rem;
   }
 
   .price-per-passenger strong,
   .passenger-count strong,
+  .journey-count strong,
   .total-price strong {
     font-size: 1rem;
   }
@@ -560,6 +562,7 @@ body {
 
 .price-per-passenger,
 .passenger-count,
+.journey-count,
 .total-price {
   display: flex;
   flex-direction: column;
@@ -569,6 +572,7 @@ body {
 
 .price-per-passenger small,
 .passenger-count small,
+.journey-count small,
 .total-price small {
   font-size: 0.75rem;
   color: #556b82;
@@ -577,6 +581,7 @@ body {
 
 .price-per-passenger strong,
 .passenger-count strong,
+.journey-count strong,
 .total-price strong {
   font-size: 1.1rem;
   color: #00264d;
