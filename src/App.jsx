@@ -3,7 +3,9 @@ import { useState, useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, Link, useParams } from 'react-router-dom';
 import Gallery from './components/Gallery';
 
-const whatsappNumber = '0738844990';
+const callNumber = '0106645685';
+const callInternationalNumber = `254${callNumber.replace(/^0/, '')}`;
+const whatsappNumber = '0786662381';
 const whatsappInternationalNumber = `254${whatsappNumber.replace(/^0/, '')}`;
 const seatColumns = ['A', 'B', 'C', 'D'];
 const seatRows = Array.from({ length: 8 }, (_, index) => index + 1);
@@ -18,13 +20,9 @@ const heroSlides = [
 
 const faresFromNairobi = [
   { destination: 'Eldoret', price: 5000 },
-  { destination: 'Kisumu', price: 6000 },
-  { destination: 'Migori', price: 5200 },
-  { destination: 'Homa Bay', price: 7000 },
-  { destination: 'Lodwar', price: 10500 },
-  { destination: 'Kitale', price: 5500 },
-  { destination: 'Mombasa', price: 7000 },
-  { destination: 'Kakamega', price: 8000 },
+  { destination: 'Ukunda', price: 6500 },
+  { destination: 'Kisumu', price: 5000 },
+  { destination: 'Mombasa', price: 6000 },
 ];
 
 const normalizeLocation = (location) => {
@@ -761,9 +759,9 @@ const HomePage = ({
         <div className="contact-card contact-card--actions">
           <h3>Call our support team</h3>
           <p>Available for flight inquiries, bookings, and travel assistance.</p>
-          <span>{whatsappNumber}</span>
+          <span>Call: {callNumber} · WhatsApp: {whatsappNumber}</span>
           <div className="contact-actions">
-            <a className="contact-action-btn contact-action-btn--call" href={`tel:+${whatsappInternationalNumber}`}>Call</a>
+            <a className="contact-action-btn contact-action-btn--call" href={`tel:+${callInternationalNumber}`}>Call</a>
             <a className="contact-action-btn contact-action-btn--whatsapp" href={`https://wa.me/${whatsappInternationalNumber}?text=Hello%20Fly%20748%2C%20I%20would%20like%20assistance.`} target="_blank" rel="noreferrer" aria-label="Contact us on WhatsApp">
               <span className="contact-action-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
@@ -774,11 +772,6 @@ const HomePage = ({
             </a>
           </div>
         </div>
-        <a className="contact-card contact-card--call-only" href="tel:+2540202019056">
-          <h3>Customer service line</h3>
-          <p>For general enquiries and office support.</p>
-          <span>020 201 9056</span>
-        </a>
         <a className="contact-card" href="mailto:customerdesk@fly748.co.ke">
           <h3>Send us an email</h3>
           <p>Reach out for ticket changes, quotes, or customer support.</p>
@@ -837,8 +830,8 @@ const ContactPage = () => (
     <div className="page-copy">
       <p>Fly 748 - Hangar 23, Wilson Airport</p>
       <p>Fly 748 - JKIA, Terminal 2</p>
-      <p>Call us: {whatsappNumber}</p>
-      <p>Office line: 020 201 9056</p>
+      <p>Call us: {callNumber}</p>
+      <p>WhatsApp: {whatsappNumber}</p>
       <p>Email: customerdesk@fly748.co.ke</p>
     </div>
   </PageShell>
@@ -1320,9 +1313,9 @@ function App() {
             <span className="footer-heading">Contact</span>
             <p>Fly 748 - Hangar 23, Wilson Airport</p>
             <p>Fly 748 - JKIA, Terminal 2</p>
-            <span className="footer-heading small-heading">Office Lines</span>
-            <p>{whatsappNumber}</p>
-            <p>020 201 9056</p>
+            <span className="footer-heading small-heading">Bookings &amp; Inquiries</span>
+            <p>Call: {callNumber}</p>
+            <p>WhatsApp: {whatsappNumber}</p>
             <p>Call us from: 5:00AM - 10:00PM</p>
             <p>Email us anytime:</p>
             <p className="footer-contact-email">customerdesk@fly748.co.ke</p>
