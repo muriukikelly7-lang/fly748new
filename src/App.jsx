@@ -340,6 +340,16 @@ const HomePage = ({
           </div>
           <div className="field-grid">
             <label>
+              Departure session
+              <select name="sessionTime" value={booking.sessionTime} onChange={handleChange}>
+                <option value="08:30">Morning session - 08:30</option>
+                <option value="11:15">Midday session - 11:15</option>
+                <option value="14:00">Afternoon session - 14:00</option>
+              </select>
+            </label>
+          </div>
+          <div className="field-grid">
+            <label>
               Passengers
               <select name="passengers" value={booking.passengers} onChange={handleChange}>
                 <option>1 Passenger</option>
@@ -550,7 +560,7 @@ const HomePage = ({
                           className="button button-primary continue-button"
                           disabled={selectedSeats.length !== submitted.passengerCount}
                           onClick={() => {
-                            const message = `Hello Fly 748,\n\nI would like to confirm my booking:\nRoute: ${submitted.origin} → ${submitted.destination}\nDepart: ${submitted.departDate}${submitted.tripType === 'Roundtrip' ? `\nReturn: ${submitted.returnDate}` : ''}\nFare per passenger per journey: Ksh. ${submitted.pricePerPassenger.toLocaleString()}\nJourneys: ${submitted.journeyCount}\nPassengers: ${submitted.passengers}\nTotal: Ksh. ${submitted.totalPrice.toLocaleString()}\nSeats: ${selectedSeats.join(', ')}\nFlight: ${submitted.flightNo} (${submitted.reg})\n\nPassenger details:\nName: ${passengerInfo.fullName}\nID/Passport: ${passengerInfo.idNumber}\nPassenger type: ${passengerInfo.passengerType}\nPhone: ${passengerInfo.phone}\nEmail: ${passengerInfo.email}\nSpecial requests: ${passengerInfo.specialRequest || 'None'}\n\nPlease help me complete this booking.`;
+                            const message = `Hello Fly 748,\n\nI would like to confirm my booking:\nRoute: ${submitted.origin} → ${submitted.destination}\nDepart: ${submitted.departDate} at ${submitted.departTime}${submitted.tripType === 'Roundtrip' ? `\nReturn: ${submitted.returnDate}` : ''}\nFare per passenger per journey: Ksh. ${submitted.pricePerPassenger.toLocaleString()}\nJourneys: ${submitted.journeyCount}\nPassengers: ${submitted.passengers}\nTotal: Ksh. ${submitted.totalPrice.toLocaleString()}\nSeats: ${selectedSeats.join(', ')}\nFlight: ${submitted.flightNo} (${submitted.reg})\n\nPassenger details:\nName: ${passengerInfo.fullName}\nID/Passport: ${passengerInfo.idNumber}\nPassenger type: ${passengerInfo.passengerType}\nPhone: ${passengerInfo.phone}\nEmail: ${passengerInfo.email}\nSpecial requests: ${passengerInfo.specialRequest || 'None'}\n\nPlease help me complete this booking.`;
                             const whatsappUrl = `https://wa.me/${whatsappInternationalNumber}?text=${encodeURIComponent(message)}`;
                             window.open(whatsappUrl, '_blank');
                           }}
@@ -960,6 +970,7 @@ function App() {
     to: 'Mombasa',
     depart: '',
     ret: '',
+    sessionTime: '08:30',
     passengers: '1 Passenger',
     coupon: '',
   });
@@ -1143,7 +1154,7 @@ function App() {
       tripType,
       flightNo: chosenRoute?.flightNo || 'F748-101',
       reg: chosenRoute?.reg || '5Y-F748',
-      departTime: chosenRoute?.time || '08:30',
+      departTime: booking.sessionTime,
       returnTime: chosenRoute?.returnTime || '10:50',
       pricePerPassenger,
       totalPrice: pricePerPassenger * passengerCount * journeyCount,
