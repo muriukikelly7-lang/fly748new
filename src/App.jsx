@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, Link, useParams } from 'react-router-dom';
 import Gallery from './components/Gallery';
 
-const callNumber = '0106645685';
+const callNumber = '0136323350';
 const callInternationalNumber = `254${callNumber.replace(/^0/, '')}`;
 const whatsappNumber = '0786662381';
 const whatsappInternationalNumber = `254${whatsappNumber.replace(/^0/, '')}`;
