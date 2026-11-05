@@ -20,9 +20,11 @@ const heroSlides = [
 
 const faresFromNairobi = [
   { destination: 'Eldoret', price: 5000 },
+  { destination: 'Mombasa', price: 6000 },
   { destination: 'Ukunda', price: 6500 },
   { destination: 'Kisumu', price: 5000 },
-  { destination: 'Mombasa', price: 6000 },
+  { destination: 'Malindi', price: 7200 },
+  { destination: 'Maasai Mara', price: 8000 },
 ];
 
 const normalizeLocation = (location) => {
