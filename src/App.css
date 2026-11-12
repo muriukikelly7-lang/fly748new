@@ -185,7 +185,7 @@ body {
 .hb-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(0, 81, 179, 0.82), rgba(0, 51, 102, 0.9));
+  background: linear-gradient(90deg, rgba(0, 42, 84, 0.66) 0%, rgba(0, 51, 102, 0.32) 55%, rgba(0, 51, 102, 0.08) 100%);
 }
 
 .hb-images {
