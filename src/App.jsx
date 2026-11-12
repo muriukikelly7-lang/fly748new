@@ -26,6 +26,7 @@ const faresFromNairobi = [
   { destination: 'Malindi', price: 7200 },
   { destination: 'Maasai Mara', price: 8000 },
 ];
+const bookingLocations = ['Nairobi', ...faresFromNairobi.map(({ destination }) => destination)];
 
 const normalizeLocation = (location) => {
   const normalized = location.trim().toLowerCase().replace(/[^a-z]/g, '');
@@ -317,19 +318,19 @@ const HomePage = ({
         <div className="booking-options" role="group" aria-label="Trip type">
           <button
             type="button"
-            className={tripType === 'Roundtrip' ? 'option active' : 'option'}
-            aria-pressed={tripType === 'Roundtrip'}
-            onClick={() => handleTripTypeChange('Roundtrip')}
-          >
-            Roundtrip
-          </button>
-          <button
-            type="button"
             className={tripType === 'One-way' ? 'option active' : 'option'}
             aria-pressed={tripType === 'One-way'}
             onClick={() => handleTripTypeChange('One-way')}
           >
             One-way
+          </button>
+          <button
+            type="button"
+            className={tripType === 'Roundtrip' ? 'option active' : 'option'}
+            aria-pressed={tripType === 'Roundtrip'}
+            onClick={() => handleTripTypeChange('Roundtrip')}
+          >
+            Roundtrip
           </button>
         </div>
         <form className="booking-form" onSubmit={handleSubmit}>
@@ -337,11 +338,23 @@ const HomePage = ({
           <div className="field-grid">
             <label>
               From
-              <input name="from" value={booking.from} onChange={handleChange} />
+              <select name="from" value={booking.from} onChange={handleChange} required>
+                {bookingLocations.map(location => (
+                  <option key={location} value={location} disabled={location === booking.to}>
+                    {location}
+                  </option>
+                ))}
+              </select>
             </label>
             <label>
               To
-              <input name="to" value={booking.to} onChange={handleChange} />
+              <select name="to" value={booking.to} onChange={handleChange} required>
+                {bookingLocations.map(location => (
+                  <option key={location} value={location} disabled={location === booking.from}>
+                    {location}
+                  </option>
+                ))}
+              </select>
             </label>
           </div>
           <div className="field-grid">
