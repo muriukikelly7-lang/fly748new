@@ -73,9 +73,19 @@ body {
   padding: 18px 0 24px;
 }
 
+.f748-logo {
+  display: block;
+  width: 176px;
+  height: 88px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
 .f748-logo img {
-  width: 120px;
-  height: auto;
+  display: block;
+  width: 176px;
+  height: 176px;
+  transform: translateY(-25%);
 }
 
 
@@ -1588,6 +1598,16 @@ body {
 
   .hb-content {
     padding: 60px 18px 24px;
+  }
+
+  .f748-logo {
+    width: 144px;
+    height: 72px;
+  }
+
+  .f748-logo img {
+    width: 144px;
+    height: 144px;
   }
 
   .hb-h1 {
