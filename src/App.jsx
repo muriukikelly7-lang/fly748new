@@ -224,7 +224,7 @@ const HomePage = ({
   activeHero,
   setActiveHero,
   tripType,
-  setTripType,
+  handleTripTypeChange,
   booking,
   handleChange,
   onSelectFare,
@@ -314,9 +314,23 @@ const HomePage = ({
         <h2>Search and book your flight</h2>
       </div>
       <div className="booking-widget">
-        <div className="booking-options">
-          <button type="button" className={tripType === 'Roundtrip' ? 'option active' : 'option'} onClick={() => setTripType('Roundtrip')}>Roundtrip</button>
-          <button type="button" className={tripType === 'One-way' ? 'option active' : 'option'} onClick={() => setTripType('One-way')}>One-way</button>
+        <div className="booking-options" role="group" aria-label="Trip type">
+          <button
+            type="button"
+            className={tripType === 'Roundtrip' ? 'option active' : 'option'}
+            aria-pressed={tripType === 'Roundtrip'}
+            onClick={() => handleTripTypeChange('Roundtrip')}
+          >
+            Roundtrip
+          </button>
+          <button
+            type="button"
+            className={tripType === 'One-way' ? 'option active' : 'option'}
+            aria-pressed={tripType === 'One-way'}
+            onClick={() => handleTripTypeChange('One-way')}
+          >
+            One-way
+          </button>
         </div>
         <form className="booking-form" onSubmit={handleSubmit}>
           {error && <div className="alert">{error}</div>}
@@ -337,7 +351,14 @@ const HomePage = ({
             </label>
             <label>
               Return
-              <input type="date" name="ret" value={booking.ret} onChange={handleChange} disabled={tripType === 'One-way'} />
+              <input
+                type="date"
+                name="ret"
+                value={booking.ret}
+                onChange={handleChange}
+                disabled={tripType === 'One-way'}
+                required={tripType === 'Roundtrip'}
+              />
             </label>
           </div>
           <div className="field-grid">
@@ -1028,6 +1049,16 @@ function App() {
     setError('');
   };
 
+  const handleTripTypeChange = nextTripType => {
+    setTripType(nextTripType);
+    setSubmitted(false);
+    setShowPassengerForm(false);
+    setSeatSelectionOpen(false);
+    setSelectedSeats([]);
+    setFormError('');
+    setError('');
+  };
+
   const handleFareSelect = destination => {
     setBooking(prev => ({ ...prev, from: 'Nairobi', to: destination }));
     setSubmitted(false);
@@ -1198,7 +1229,7 @@ function App() {
       activeHero={activeHero}
       setActiveHero={setActiveHero}
       tripType={tripType}
-      setTripType={setTripType}
+      handleTripTypeChange={handleTripTypeChange}
       booking={booking}
       handleChange={handleChange}
       onSelectFare={handleFareSelect}
