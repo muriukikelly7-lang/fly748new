@@ -349,17 +349,12 @@ const HomePage = ({
               Depart
               <input type="date" name="depart" value={booking.depart} onChange={handleChange} />
             </label>
-            <label>
-              Return
-              <input
-                type="date"
-                name="ret"
-                value={booking.ret}
-                onChange={handleChange}
-                disabled={tripType === 'One-way'}
-                required={tripType === 'Roundtrip'}
-              />
-            </label>
+            {tripType === 'Roundtrip' && (
+              <label>
+                Return
+                <input type="date" name="ret" value={booking.ret} onChange={handleChange} required />
+              </label>
+            )}
           </div>
           <div className="field-grid">
             <label>
