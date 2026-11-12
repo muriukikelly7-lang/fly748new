@@ -4,12 +4,7 @@
 
 The `Deploy Vite app to GitHub Pages` workflow builds and deploys the frontend when changes are pushed to `main`. In the repository, open **Settings > Pages** and select **GitHub Actions** as the build and deployment source.
 
-The workflow uses a relative Vite base path so the site loads correctly from GitHub Pages project URLs and from a configured custom domain. The custom domain is `fly748airlines.com` (the deployed site includes the required `CNAME` file). To connect it through Cloudflare:
-
-1. Add `fly748airlines.com` in the repository **Settings > Pages > Custom domain**.
-2. In Cloudflare **DNS**, add four A records for `fly748airlines.com`, with the values `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, and `185.199.111.153`. Set each record to **DNS only** while GitHub verifies the domain and provisions HTTPS.
-3. Optionally add a **DNS only** CNAME record for `www` pointing to `muriukikelly7-lang.github.io`.
-4. Wait for DNS to propagate, then enable **Enforce HTTPS** in **Settings > Pages**.
+The workflow sets Vite's base path for the repository's GitHub Pages URL, `https://muriukikelly7-lang.github.io/fly748new/`, so built assets load from the project subpath.
 
 ## Backend and sign-in
 
