@@ -19,10 +19,10 @@ const heroSlides = [
 ];
 
 const faresFromNairobi = [
+  { destination: 'Kisumu', price: 4000 },
   { destination: 'Eldoret', price: 5000 },
   { destination: 'Mombasa', price: 6000 },
   { destination: 'Ukunda', price: 6500 },
-  { destination: 'Kisumu', price: 5000 },
   { destination: 'Malindi', price: 7200 },
   { destination: 'Maasai Mara', price: 8000 },
 ];
@@ -1112,18 +1112,26 @@ function App() {
 
     const routeMap = {
       Nairobi: {
-        Mombasa: { flightNo: 'F748-101', reg: '5Y-F748', time: '08:30', returnTime: '10:50', price: 7700 },
-        Ukunda: { flightNo: 'F748-205', reg: '5Y-F749', time: '11:15', returnTime: '12:50', price: 7700 },
-        Malindi: { flightNo: 'F748-307', reg: '5Y-F750', time: '14:00', returnTime: '15:20', price: 9500 },
+        Kisumu: { flightNo: 'F748-001', reg: '5Y-F740', time: '08:00', returnTime: '10:00', price: 4000 },
+        Eldoret: { flightNo: 'F748-101', reg: '5Y-F741', time: '08:30', returnTime: '10:50', price: 5000 },
+        Mombasa: { flightNo: 'F748-201', reg: '5Y-F748', time: '08:30', returnTime: '10:50', price: 6000 },
+        Ukunda: { flightNo: 'F748-205', reg: '5Y-F749', time: '11:15', returnTime: '12:50', price: 6500 },
+        Malindi: { flightNo: 'F748-307', reg: '5Y-F750', time: '14:00', returnTime: '15:20', price: 7200 },
+      },
+      Kisumu: {
+        Nairobi: { flightNo: 'F748-002', reg: '5Y-F742', time: '10:00', returnTime: '08:00', price: 4000 },
+      },
+      Eldoret: {
+        Nairobi: { flightNo: 'F748-102', reg: '5Y-F743', time: '10:50', returnTime: '08:30', price: 5000 },
       },
       Mombasa: {
-        Nairobi: { flightNo: 'F748-102', reg: '5Y-F751', time: '10:50', returnTime: '08:30', price: 7700 },
+        Nairobi: { flightNo: 'F748-202', reg: '5Y-F751', time: '10:50', returnTime: '08:30', price: 6000 },
       },
       Ukunda: {
-        Nairobi: { flightNo: 'F748-206', reg: '5Y-F752', time: '12:50', returnTime: '11:15', price: 7700 },
+        Nairobi: { flightNo: 'F748-206', reg: '5Y-F752', time: '12:50', returnTime: '11:15', price: 6500 },
       },
       Malindi: {
-        Nairobi: { flightNo: 'F748-308', reg: '5Y-F753', time: '15:20', returnTime: '14:00', price: 9500 },
+        Nairobi: { flightNo: 'F748-308', reg: '5Y-F753', time: '15:20', returnTime: '14:00', price: 7200 },
       },
     };
 
